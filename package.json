@@ -1,0 +1,24 @@
+{
+  "name": "ieee-mobile-back",
+  "version": "1.0.0",
+  "description": "The server of IEEE Al-Azhar mobile application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IEEE-AlAzhar/Mobile-App-Back.git"
+  },
+  "author": "ieee-developers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IEEE-AlAzhar/Mobile-App-Back/issues"
+  },
+  "homepage": "https://github.com/IEEE-AlAzhar/Mobile-App-Back#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.10"
+  }
+}
