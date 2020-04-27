@@ -1,0 +1,1 @@
+1. Update the `README` with the credentials after finishing the `authentication`.

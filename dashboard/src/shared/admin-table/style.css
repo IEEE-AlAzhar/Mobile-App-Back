@@ -1,0 +1,15 @@
+.img-preview {
+  position: relative;
+}
+
+.img-preview:hover .preview-dismiss {
+  display: inline;
+}
+
+.preview-dismiss {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  cursor: pointer;
+}

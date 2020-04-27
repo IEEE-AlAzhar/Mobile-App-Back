@@ -1,0 +1,13 @@
+.navbar.admin-header {
+  border-bottom: 2px solid #eee;
+  z-index: 99;
+}
+
+.navbar.admin-header .navbar-nav {
+  flex-direction: row;
+}
+
+.navbar.admin-header .navbar-nav .nav-item {
+  border-left: 1px solid #ccc;
+  padding: 0 0.3rem;
+}

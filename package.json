@@ -3,8 +3,16 @@
   "version": "1.0.0",
   "description": "The server of IEEE Al-Azhar mobile application",
   "main": "index.js",
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,md}": [
+      "prettier --write"
+    ]
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "front-install": "cd front/ && npm i",
+    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "dev-start": "concurrently \"npm start\" \"cd front/ && npm start\""
   },
   "repository": {
     "type": "git",
@@ -17,8 +25,20 @@
   },
   "homepage": "https://github.com/IEEE-AlAzhar/Mobile-App-Back#readme",
   "dependencies": {
+    "concurrently": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.10"
+    "express-validator": "^6.2.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.1.0",
+    "mongoose": "^5.7.9",
+    "pm2": "^4.2.3",
+    "prettier": "^2.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

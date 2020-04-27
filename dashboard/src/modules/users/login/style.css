@@ -1,0 +1,23 @@
+.login-page {
+  padding: 2.5rem 4rem;
+  background-color: #ecfbfa;
+}
+
+.login-form-box {
+  min-height: 89vh;
+  padding: 8rem 1.5rem;
+  background-color: #fff;
+  overflow-y: auto;
+  border-radius: 5px;
+}
+
+.login-form {
+  margin: auto;
+}
+
+@media (min-width: 991px) {
+  .login-form {
+    max-width: 40%;
+    margin: auto;
+  }
+}
