@@ -1,12 +1,7 @@
-@font-face {
-  font-family: "Basic";
-  src: local("Basic"), url(./assets/fonts/Basic/Basic-Regular.ttf) format("truetype");
-}
 
 body {
   overflow-x: hidden;
   color: #3d3d3d !important;
-  font-family: "Basic", "sans-serif" !important;
 }
 .heading {
   width: 80%;

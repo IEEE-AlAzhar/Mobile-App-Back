@@ -5,9 +5,7 @@ import {
   faSignOutAlt,
   faBars,
   faTimes,
-  faGlobe
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
 
 import "./style.css";
 
@@ -15,7 +13,7 @@ import logout from "modules/users/services/logout.service";
 
 export default class AdminHeader extends Component {
   state = {
-    redirect: null
+    redirect: null,
   };
   logout = () => {
     logout().then(() => {

@@ -16,7 +16,7 @@ export default class App extends Component {
               <Route
                 key={`adRoute${index}`}
                 exact
-                path={`/admin${adRoute.path}`}
+                path={`/${adRoute.path}`}
                 component={adRoute.component}
               />
             );

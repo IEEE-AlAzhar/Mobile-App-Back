@@ -5,6 +5,7 @@
   "main": "index.js",
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,md}": [
+      "npm run lint:fix",
       "prettier --write"
     ]
   },
@@ -12,7 +13,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "front-install": "cd front/ && npm i",
     "start": "pm2-runtime start ecosystem.config.js --env production",
-    "dev-start": "concurrently \"npm start\" \"cd front/ && npm start\""
+    "dev-start": "concurrently \"npm start\" \"cd dashboard/ && npm start\"",
+    "lint:fix": "eslint src/**/*.js --fix"
   },
   "repository": {
     "type": "git",
@@ -40,5 +42,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   }
 }
