@@ -5,6 +5,12 @@ const path = require("path");
 
 const app = express();
 
+// require controllers
+const handleLogin = require("./controllers/user/handleLogin");
+const getUser = require("./controllers/user/getUser");
+const handleUserImage = require("./controllers/user/handleUserImage");
+const handleUserPhone = require("./controllers/user/handleUserPhone");
+
 require("dotenv").config();
 
 mongoose
@@ -20,7 +26,12 @@ app.use(express.json());
 
 app.use(cors());
 
-// Add controllers here
+// end-points
+app.get("/", (req, res) => res.json("root is working!"));
+app.post("/login", handleLogin("User"));
+app.get("/user/:id", getUser("User"));
+app.put("/user/:id/image", handleUserImage("User"));
+app.put("/user/:id/phone", handleUserPhone("User"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "public")));
