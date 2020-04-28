@@ -13,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "front-install": "cd front/ && npm i",
     "start": "pm2-runtime start ecosystem.config.js --env production",
-    "dev-start": "concurrently \"npm start\" \"cd dashboard/ && npm start\"",
+    "dev-start": "concurrently \"nodemon\" \"cd dashboard/ && npm start\"",
     "lint:fix": "eslint src/**/*.js --fix"
   },
   "repository": {

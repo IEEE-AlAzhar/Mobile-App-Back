@@ -7,7 +7,6 @@ The source code of `IEEE Al-Azhar` student activity's mobile app back-end. The a
 1. [Installation](#install)
 1. [Usage](#use)
 1. [Structure](#structure)
-1. [Contribution](#contribution)
 1. [License](#license)
 
 ## Installation
@@ -21,6 +20,8 @@ Make sure to have [Node.js](https://nodejs.org/en/download/) installed on your m
 3. Run `$ npm install` to install dependencies and packages in the root then install packages in `front/` by running `$ npm run front-install`.
 
 ## Usage
+
+> Install `nodemon` globally to be able to run the back-end: `$ npm i -g nodemon`
 
 1. Create a `.env` file at the root of the project
 
