@@ -10,7 +10,7 @@ const changeUserImage = (User) => (req, res) => {
       if (data) {
         res.json({ image: data.user.image });
       } else {
-        res.status(404).json("User is not exist!");
+        res.status(404).json("User does not not exist!");
       }
     })
     .catch((err) =>

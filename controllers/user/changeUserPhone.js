@@ -10,7 +10,7 @@ const changeUserPhone = (User) => (req, res) => {
       if (data) {
         res.json({ phone: data.user.phone });
       } else {
-        res.status(404).json("User is not exist!");
+        res.status(404).json("User does not not exist!");
       }
     })
     .catch((err) =>

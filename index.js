@@ -14,6 +14,7 @@ const addUser = require("./controllers/user/addUser");
 const login = require("./controllers/user/login");
 const changeUserImage = require("./controllers/user/changeUserImage");
 const changeUserPhone = require("./controllers/user/changeUserPhone");
+// const getAnnouncements = require("./controllers/announcement/getAnnouncements");
 
 require("dotenv").config();
 
@@ -38,6 +39,7 @@ app.post("/users/add", addUser(User));
 app.post("/users/login", login(User));
 app.put("/user/:code/image", changeUserImage(User));
 app.put("/user/:code/phone", changeUserPhone(User));
+// app.get("/announcements", getAnnouncements(Announcements));
 app.delete("/reset", (req, res) =>
   User.deleteMany({}).then(res.json("Success"))
 );
