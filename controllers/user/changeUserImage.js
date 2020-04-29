@@ -3,13 +3,12 @@ const changeUserImage = (User) => (req, res) => {
   const { image } = req.body;
   User.findOneAndUpdate(
     { "user.code": code },
-    { $set: { "user.image": image } }
+    { $set: { "user.image": image } },
+    { new: true }
   )
     .then((data) => {
       if (data) {
-        User.findOne({ "user.code": code }).then((data) => {
-          res.json({image: data.user.image});
-        });
+        res.json({ image: data.user.image });
       } else {
         res.status(404).json("User is not exist!");
       }
