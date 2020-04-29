@@ -11,7 +11,7 @@ const changeUserImage = (User) => (req, res) => {
         res.json({ image: data.user.image });
       } else {
         res.status(404).json({
-          msg: "User does not not exist!",
+          msg: "User does not exist!",
         });
       }
     })

@@ -11,7 +11,7 @@ const changeUserPhone = (User) => (req, res) => {
         res.json({ phone: data.user.phone });
       } else {
         res.status(404).json({
-          msg: "User does not not exist!",
+          msg: "User does not exist!",
         });
       }
     })
