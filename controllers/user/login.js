@@ -10,7 +10,9 @@ const login = (User) => (req, res) => {
         });
       }
     })
-    .catch((err) => res.status(400).json(err));
+    .catch((err) =>
+      res.status(500).json("An error occurred, please try again later!")
+    );
 };
 
 module.exports = login;

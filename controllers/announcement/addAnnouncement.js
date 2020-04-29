@@ -1,7 +1,6 @@
 const addAnnouncement = (Announcement) => (req, res) => {
-  const { id, title, body, type, cover } = req.body;
+  const { title, body, type, cover } = req.body;
   Announcement.create({
-    id,
     title,
     body,
     type,

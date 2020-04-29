@@ -3,11 +3,6 @@ const Schema = mongoose.Schema;
 
 // creating announcement schema
 const announcementSchema = new Schema({
-  id: {
-    type: String,
-    required: [true, "Announcement id is required!"],
-    unique: true,
-  },
   title: {
     type: String,
     required: [true, "Announcement title is required!"],
