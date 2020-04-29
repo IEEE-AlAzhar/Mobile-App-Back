@@ -5,7 +5,9 @@ const login = (User) => (req, res) => {
       if (user) {
         res.json(user);
       } else {
-        res.status(404).json("User does not not exist!");
+        res.status(404).json({
+          msg: "User does not not exist!",
+        });
       }
     })
     .catch((err) => res.status(400).json(err));

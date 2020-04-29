@@ -7,6 +7,7 @@ const app = express();
 
 // require Models
 const User = require("./models/User.model");
+const Announcement = require("./models/Announcement.model");
 
 // require controllers
 const getUsers = require("./controllers/user/getUsers");
@@ -14,16 +15,17 @@ const addUser = require("./controllers/user/addUser");
 const login = require("./controllers/user/login");
 const changeUserImage = require("./controllers/user/changeUserImage");
 const changeUserPhone = require("./controllers/user/changeUserPhone");
-// const getAnnouncements = require("./controllers/announcement/getAnnouncements");
+const addAnnouncement = require("./controllers/announcement/addAnnouncement");
+const getAnnouncements = require("./controllers/announcement/getAnnouncements");
 
 require("dotenv").config();
 
 mongoose
-  .connect('mongodb://localhost:27017/mobApp' || process.env.DB_URI, {
+  .connect("mongodb://localhost:27017/mobApp" || process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
-    useCreateIndex: true
+    useCreateIndex: true,
   })
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));
@@ -36,10 +38,11 @@ app.use(cors());
 app.get("/", (req, res) => res.json("root is working!"));
 app.get("/users", getUsers(User));
 app.post("/users/add", addUser(User));
-app.post("/users/login", login(User));
+app.post("/user/login", login(User));
 app.put("/user/:code/image", changeUserImage(User));
 app.put("/user/:code/phone", changeUserPhone(User));
-// app.get("/announcements", getAnnouncements(Announcements));
+app.post("/announcements/add", addAnnouncement(Announcement));
+app.get("/announcements", getAnnouncements(Announcement));
 app.delete("/reset", (req, res) =>
   User.deleteMany({}).then(res.json("Success"))
 );
