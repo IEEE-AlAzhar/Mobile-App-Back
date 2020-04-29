@@ -229,7 +229,7 @@
 
 #### delete Request
 
-**Request:** `/users/:id`
+**Request:** `/users/:code`
 
 **Response:**
 
@@ -271,7 +271,7 @@
 
 #### put Request
 
-**Request:** `/users/:id`
+**Request:** `/users/:code`
 
 ```json
 {
@@ -310,7 +310,7 @@
 
 #### delete Request
 
-**Request:** `/users/:id`
+**Request:** `/users/:code`
 
 **Response:**
 
@@ -334,7 +334,7 @@
 
 #### post Request
 
-**Request:** `/users/:id/feedback`
+**Request:** `/users/:code/feedback`
 
 ```json
 {
@@ -371,7 +371,7 @@
 
 #### put Request
 
-**Request:** `/users/:id/feedback/:feedbackId`
+**Request:** `/users/:code/feedback/:feedbackId`
 
 ```json
 {
@@ -408,7 +408,7 @@
 
 #### delete Request
 
-**Request:** `/users/:id/feedback/:feedbackId`
+**Request:** `/users/:code/feedback/:feedbackId`
 
 **Response:**
 
@@ -432,7 +432,7 @@
 
 #### post Request
 
-**Request:** `/users/:id/achievement`
+**Request:** `/users/:code/achievement`
 
 ```json
 {
@@ -469,7 +469,7 @@
 
 #### put Request
 
-**Request:** `/users/:id/achievement/:achievementId`
+**Request:** `/users/:code/achievement/:achievementId`
 
 ```json
 {
@@ -506,7 +506,7 @@
 
 #### delete Request
 
-**Request:** `/users/:id/achievement/:achievementId`
+**Request:** `/users/:code/achievement/:achievementId`
 
 **Response:**
 

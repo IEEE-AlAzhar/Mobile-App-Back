@@ -12,7 +12,7 @@ const User = require("./models/User.model");
 const getUsers = require("./controllers/user/getUsers");
 const addUser = require("./controllers/user/addUser");
 const handleLogin = require("./controllers/user/handleLogin");
-// const handleUserImage = require("./controllers/user/handleUserImage");
+const handleUserImage = require("./controllers/user/handleUserImage");
 // const handleUserPhone = require("./controllers/user/handleUserPhone");
 
 require("dotenv").config();
@@ -36,8 +36,8 @@ app.get("/", (req, res) => res.json("root is working!"));
 app.get("/users", getUsers(User));
 app.post("/users/add", addUser(User));
 app.post("/users/login", handleLogin(User));
-// app.put("/user/:id/image", handleUserImage(User));
-// app.put("/user/:id/phone", handleUserPhone(User));
+app.put("/user/:code/image", handleUserImage(User));
+// app.put("/user/:code/phone", handleUserPhone(User));
 app.delete("/reset", (req, res) =>
   User.deleteMany({}).then(res.json("Success"))
 );
