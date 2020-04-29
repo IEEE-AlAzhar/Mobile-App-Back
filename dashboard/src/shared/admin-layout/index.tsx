@@ -4,12 +4,16 @@ import AdminSidebar from "../admin-sidebar";
 
 import "./style.css";
 
-export default class AdminLayout extends Component {
+interface State {
+  isSidebarVisible: boolean;
+}
+
+export default class AdminLayout extends Component<{ children }, State> {
   state = {
-    isSidebarVisible: true
+    isSidebarVisible: true,
   };
 
-  toggleSidebar = () => {
+  toggleSidebar: (event: React.MouseEvent<HTMLButtonElement>) => void = () => {
     this.setState({ isSidebarVisible: !this.state.isSidebarVisible });
   };
 
@@ -18,12 +22,11 @@ export default class AdminLayout extends Component {
       <>
         <AdminHeader
           toggleSidebar={this.toggleSidebar}
-          visible={this.state.isSidebarVisible}
+          isVisible={this.state.isSidebarVisible}
         />
         <main className="admin-main">{this.props.children}</main>
         <AdminSidebar
-          toggleSidebar={this.toggleSidebar}
-          visible={this.state.isSidebarVisible}
+          isVisible={this.state.isSidebarVisible}
         />
       </>
     );

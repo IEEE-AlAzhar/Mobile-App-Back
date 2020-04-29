@@ -20,9 +20,9 @@
 {
   "token": "averylongtoken34957345sfdghkl",
   "user": {
-    "id": "1000",
+    "_id": "1000",
     "name": "username",
-    "phone": "0100000000",
+    "phone": 0100000000,
     "image": "https://via.placeholder.com/500?text=image+1",
     "role": "officer", // optional
     "type": "officer",
@@ -76,7 +76,7 @@
 ```json
 {
   "name": "user name",
-  "phone": "0100000000",
+  "phone": 0100000000,
   "image": "https://via.placeholder.com/500?text=image+1",
   "role": "officer", // optional --> 'officer'/'member'/'head'
   "type": "officer",
@@ -92,17 +92,15 @@
 
 ```json
 {
-  "msg": "User created successfully !",
-  "user": {
-    "name": "user name",
-    "phone": "0100000000",
-    "image": "https://via.placeholder.com/500?text=image+1",
-    "role": "officer", // optional --> 'officer'/'member'/'head'
-    "type": "officer",
-    "committee": "web", // optional
-    "code": "34543543sdf56",
-    "permissions": "admin" // or 'head'
-  }
+  "_id": "234523453425",
+  "name": "user name",
+  "phone": 0100000000,
+  "image": "https://via.placeholder.com/500?text=image+1",
+  "role": "officer", // optional --> 'officer'/'member'/'head'
+  "type": "officer",
+  "committee": "web", // optional
+  "code": "34543543sdf56",
+  "permissions": "admin" // or 'head'
 }
 ```
 
@@ -138,22 +136,22 @@
 ```json
 [
   {
-    "id": "1000",
+    "_id": "1000",
     "name": "username",
-    "phone": "0100000000",
+    "phone": 0100000000,
     "image": "https://via.placeholder.com/500?text=image+1",
     "role": "officer",
     "type": "officer",
     "committee": "web",
     "feedbacks": [
       {
-        "id": "1",
+        "_id": "1",
         "title": "feedback 1",
         "date": "26-4-2020",
         "body": "Fake feedback"
       },
       {
-        "id": "2",
+        "_id": "2",
         "title": "feedback 2",
         "date": "26-5-2020",
         "body": "Fake feedback"
@@ -161,13 +159,13 @@
     ],
     "achievements": [
       {
-        "id": "1",
+        "_id": "1",
         "title": "title 1",
         "date": "26-5-2020",
         "description": "Lorem ipsum"
       },
       {
-        "id": "2",
+        "_id": "2",
         "title": "title 2",
         "date": "26-5-2020",
         "description": "Lorem ipsum"
@@ -175,22 +173,22 @@
     ]
   },
   {
-    "id": "1000",
+    "_id": "1000",
     "name": "username",
-    "phone": "0100000000",
+    "phone": 0100000000,
     "image": "https://via.placeholder.com/500?text=image+1",
     "role": "officer",
     "type": "officer",
     "committee": "web",
     "feedbacks": [
       {
-        "id": "1",
+        "_id": "1",
         "title": "feedback 1",
         "date": "26-4-2020",
         "body": "Fake feedback"
       },
       {
-        "id": "2",
+        "_id": "2",
         "title": "feedback 2",
         "date": "26-5-2020",
         "body": "Fake feedback"
@@ -198,13 +196,13 @@
     ],
     "achievements": [
       {
-        "id": "1",
+        "_id": "1",
         "title": "title 1",
         "date": "26-5-2020",
         "description": "Lorem ipsum"
       },
       {
-        "id": "2",
+        "_id": "2",
         "title": "title 2",
         "date": "26-5-2020",
         "description": "Lorem ipsum"
@@ -237,17 +235,7 @@
 
 ```json
 {
-  "msg": "User deleted successfully !",
-  "user": {
-    "name": "user name",
-    "phone": "0100000000",
-    "image": "https://via.placeholder.com/500?text=image+1",
-    "role": "officer", // optional --> 'officer'/'member'/'head'
-    "type": "officer",
-    "committee": "web", // optional
-    "code": "34543543sdf56",
-    "permissions": "admin" // or 'head'
-  }
+  "msg": "User deleted successfully !"
 }
 ```
 
@@ -276,7 +264,7 @@
 ```json
 {
   "name": "user name",
-  "phone": "0100000000",
+  "phone": 0100000000,
   "image": "https://via.placeholder.com/500?text=image+1",
   "role": "officer", // optional --> 'officer'/'member'/'head'
   "type": "officer",
@@ -292,17 +280,15 @@
 
 ```json
 {
-  "msg": "User updated successfully !",
-  "user": {
-    "name": "user name",
-    "phone": "0100000000",
-    "image": "https://via.placeholder.com/500?text=image+1",
-    "role": "officer", // optional --> 'officer'/'member'/'head'
-    "type": "officer",
-    "committee": "web", // optional
-    "code": "34543543sdf56",
-    "permissions": "admin" // or 'head'
-  }
+  "_id": "435345345",
+  "name": "user name",
+  "phone": 0100000000,
+  "image": "https://via.placeholder.com/500?text=image+1",
+  "role": "officer", // optional --> 'officer'/'member'/'head'
+  "type": "officer",
+  "committee": "web", // optional
+  "code": "34543543sdf56",
+  "permissions": "admin" // or 'head'
 }
 ```
 
@@ -350,12 +336,10 @@
 
 ```json
 {
-  "msg": "Feedback submitted successfully !",
-  "feedback": {
-    "title": "feedback 2",
-    "date": "26-5-2020",
-    "body": "Fake feedback"
-  }
+  "_id": "sdfsaf43545",
+  "title": "feedback 2",
+  "date": "26-5-2020",
+  "body": "Fake feedback"
 }
 ```
 
@@ -387,12 +371,10 @@
 
 ```json
 {
-  "msg": "Feedback updated successfully !",
-  "feedback": {
-    "title": "feedback 2",
-    "date": "26-5-2020",
-    "body": "Fake feedback"
-  }
+  "_id": "sdfsaf43545",
+  "title": "feedback 2",
+  "date": "26-5-2020",
+  "body": "Fake feedback"
 }
 ```
 
@@ -448,12 +430,10 @@
 
 ```json
 {
-  "msg": "Achievement submitted successfully !",
-  "achievement": {
-    "title": "achievement 2",
-    "date": "26-5-2020",
-    "description": "Fake achievement"
-  }
+  "_id": "sdfsaf43545",
+  "title": "achievement 2",
+  "date": "26-5-2020",
+  "description": "Fake achievement"
 }
 ```
 
@@ -485,12 +465,10 @@
 
 ```json
 {
-  "msg": "Achievement updated successfully !",
-  "achievement": {
-    "title": "achievement 2",
-    "date": "26-5-2020",
-    "body": "Fake achievement"
-  }
+  "_id": "sdfsaf43545",
+  "title": "achievement 2",
+  "date": "26-5-2020",
+  "body": "Fake achievement"
 }
 ```
 
@@ -541,6 +519,7 @@
 ```json
 [
   {
+    "_id": "sdfsaf43545",
     "title": "Announcement 2",
     "body": "Fake data for announcement ",
     "date": "26-04-2020",
@@ -548,6 +527,7 @@
     "cover": "https://via.placeholder.com/500?text=image+1"
   },
   {
+    "_id": "sdfsaf43545",
     "title": "Announcement 1",
     "body": "Fake data for announcement ",
     "date": "26-04-2020",
@@ -587,8 +567,8 @@
 
 ```json
 {
-  "msg": "Announcements created successfully !",
   "announcement": {
+    "_id": "sdfsaf43545",
     "title": "Announcement 1",
     "body": "Fake data for announcement ",
     "date": "26-04-2020",
@@ -628,14 +608,12 @@
 
 ```json
 {
-  "msg": "Announcement updated successfully !",
-  "announcement": {
-    "title": "Announcement 1",
-    "body": "Fake data for announcement ",
-    "date": "26-04-2020",
-    "type": "operation", // or 'general'/'technical'
-    "cover": "https://via.placeholder.com/500?text=image+1"
-  }
+  "_id": "sdfsaf43545",
+  "title": "Announcement 1",
+  "body": "Fake data for announcement ",
+  "date": "26-04-2020",
+  "type": "operation", // or 'general'/'technical'
+  "cover": "https://via.placeholder.com/500?text=image+1"
 }
 ```
 

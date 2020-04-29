@@ -4,11 +4,16 @@ import "./style.css";
 
 import { NavLink } from "react-router-dom";
 
-import adminRoutes from "globals/admin-routes.js";
+import adminRoutes from "@globals/admin-routes.js";
+import {RouteStructure} from "@globals/interfaces/route.interface";
 
-export default class AdminSidebar extends Component {
+interface Prop {
+  isVisible: boolean
+}
+
+export default class AdminSidebar extends Component<Prop> {
   renderAdminRoutes = () => {
-    return adminRoutes.map((adRoute, index) => {
+    return adminRoutes.map((adRoute: RouteStructure, index: number) => {
       if (adRoute.label) {
         return (
           <li key={index} className="sidebarItem">
@@ -25,7 +30,7 @@ export default class AdminSidebar extends Component {
     return (
       <aside
         className="adminSidebar"
-        style={{ left: !this.props.visible && "-245px" }}
+        style={{ left: !this.props.isVisible && "-245px" }}
       >
         <h1> Admin Dashboard </h1>
         <ul className="list-unstyled mt-2">{this.renderAdminRoutes()}</ul>

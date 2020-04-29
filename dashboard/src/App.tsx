@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import adminRoutes from "globals/admin-routes";
+import adminRoutes from "@globals/admin-routes";
+import { RouteStructure } from "@globals/interfaces/route.interface";
 
 import "./App.css";
 
@@ -11,12 +12,12 @@ export default class App extends Component {
     return (
       <Router>
         <Switch>
-          {adminRoutes.map((adRoute, index) => {
+          {adminRoutes.map((adRoute: RouteStructure, index: number) => {
             return (
               <Route
                 key={`adRoute${index}`}
                 exact
-                path={`/${adRoute.path}`}
+                path={`/admin${adRoute.path}`}
                 component={adRoute.component}
               />
             );

@@ -2,17 +2,19 @@ import React, { Component } from "react";
 
 import "./style.css";
 
-import AdminLayout from "shared/admin-layout";
+import AdminLayout from "@shared/admin-layout";
 
-import isUserLoggedIn from "modules/users/services/auth.service";
+import { isUserLoggedIn } from "@modules/users/services/auth.service";
 
-export default class DashboardHome extends Component {
+interface Prop {
+  history: {
+    push: (path: string) => void;
+  };
+}
+
+export default class AdminHome extends Component<Prop> {
   async componentDidMount() {
-    isUserLoggedIn().then(response => {
-      if (!response) {
-        this.props.history.push("/admin/login");
-      }
-    });
+    // if (!isUserLoggedIn()) this.props.history.push("/admin/login");
   }
 
   render() {

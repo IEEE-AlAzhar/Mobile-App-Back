@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default async () => {
-  let response = await axios.get("/api/users/logout");
+  let response = await axios.get("/users/logout");
 
   // Clear the localStorage
   localStorage.removeItem("user");
