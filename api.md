@@ -1,10 +1,11 @@
 ## Dashboard API
 
-### Login
 
-#### post Request
+### LOGIN
 
-**Request:** `/login`
+#### POST Request
+
+**Request:** `/user/login`
 
 ```json
 {
@@ -29,13 +30,13 @@
     "committee": "web",
     "feedbacks": [
       {
-        "id": "1",
+        "_id": "2",
         "title": "feedback 1",
         "date": "26-4-2020",
         "body": "Fake feedback"
       },
       {
-        "id": "2",
+        "_id": "1",
         "title": "feedback 2",
         "date": "26-5-2020",
         "body": "Fake feedback"
@@ -43,13 +44,13 @@
     ],
     "achievements": [
       {
-        "id": "1",
+        "_id": "2",
         "title": "title 1",
         "date": "26-5-2020",
         "description": "Lorem ipsum"
       },
       {
-        "id": "2",
+        "_id": "1",
         "title": "title 2",
         "date": "26-5-2020",
         "description": "Lorem ipsum"
@@ -63,9 +64,18 @@
 
 ```json
 {
-  "msg": "User is not exist!"
+  "msg": "User does not exist!"
 }
 ```
+
+- **500:**
+
+```json
+{
+  "msg": "An error occurred, please try again later!"
+}
+```
+
 
 ### Create a User
 
@@ -121,6 +131,7 @@
   "msg": "User already existed !"
 }
 ```
+
 
 ### Get users
 
@@ -222,6 +233,7 @@
 }
 ```
 
+
 ### Delete user
 
 - If `Admin` --> Return all users.
@@ -267,6 +279,7 @@
 }
 ```
 
+
 ### Edit User
 
 #### put Request
@@ -306,6 +319,7 @@
 }
 ```
 
+
 ### Delete User
 
 #### delete Request
@@ -329,6 +343,7 @@
   "msg": "An error occurred, please try again later!"
 }
 ```
+
 
 ### Add feedback
 
@@ -367,6 +382,7 @@
 }
 ```
 
+
 ### Edit feedback
 
 #### put Request
@@ -404,6 +420,7 @@
 }
 ```
 
+
 ### Delete feedback
 
 #### delete Request
@@ -427,6 +444,7 @@
   "msg": "An error occurred, please try again!"
 }
 ```
+
 
 ### Add achievement
 
@@ -465,6 +483,7 @@
 }
 ```
 
+
 ### Edit achievement
 
 #### put Request
@@ -502,6 +521,7 @@
 }
 ```
 
+
 ### Delete achievement
 
 #### delete Request
@@ -526,11 +546,14 @@
 }
 ```
 
+
+
 ## Announcements
 
-### Get announcements
 
-#### get Request
+### GET ANNOUNCEMENTS
+
+#### GET Request
 
 **Request:** `/announcements`
 
@@ -541,14 +564,16 @@
 ```json
 [
   {
-    "title": "Announcement 2",
+    "_id": "1",
+    "title": "Announcement 1",
     "body": "Fake data for announcement ",
     "date": "26-04-2020",
     "type": "operation", // or 'general'/'technical'
     "cover": "https://via.placeholder.com/500?text=image+1"
   },
   {
-    "title": "Announcement 1",
+    "_id": "2",
+    "title": "Announcement 2",
     "body": "Fake data for announcement ",
     "date": "26-04-2020",
     "type": "operation", // or 'general'/'technical'
@@ -557,13 +582,14 @@
 ]
 ```
 
-- **400:**
+- **500:**
 
 ```json
 {
   "msg": "An error occurred, please try again later!"
 }
 ```
+
 
 ### Post announcements
 
@@ -606,6 +632,7 @@
 }
 ```
 
+
 ### Edit announcements
 
 #### put Request
@@ -646,6 +673,7 @@
   "msg": "An error occurred, please try again later!"
 }
 ```
+
 
 ### Delete announcements
 
