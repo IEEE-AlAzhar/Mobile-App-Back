@@ -1,6 +1,6 @@
 const handleLogin = (User) => (req, res) => {
   const { code } = req.body;
-  User.findOne({ code })
+  User.findOne({ "user.code": code })
     .then((user) => {
       if (user) {
         res.json(user);
