@@ -12,7 +12,6 @@ const User = require("./models/User.model");
 const getUsers = require("./controllers/user/getUsers");
 const addUser = require("./controllers/user/addUser");
 const handleLogin = require("./controllers/user/handleLogin");
-// const getUser = require("./controllers/user/getUser");
 // const handleUserImage = require("./controllers/user/handleUserImage");
 // const handleUserPhone = require("./controllers/user/handleUserPhone");
 
@@ -37,7 +36,6 @@ app.get("/", (req, res) => res.json("root is working!"));
 app.get("/users", getUsers(User));
 app.post("/users/add", addUser(User));
 app.post("/users/login", handleLogin(User));
-// app.get("/user/:id", getUser(User));
 // app.put("/user/:id/image", handleUserImage(User));
 // app.put("/user/:id/phone", handleUserPhone(User));
 app.delete("/reset", (req, res) =>

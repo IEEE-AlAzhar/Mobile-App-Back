@@ -59,11 +59,11 @@
 }
 ```
 
-- **401:**
+- **404:**
 
 ```json
 {
-  "msg": "user not found, please try again with a valid code!"
+  "msg": "User is not exist!"
 }
 ```
 
