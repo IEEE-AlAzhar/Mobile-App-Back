@@ -11,9 +11,9 @@ const User = require("./models/User.model");
 // require controllers
 const getUsers = require("./controllers/user/getUsers");
 const addUser = require("./controllers/user/addUser");
-const handleLogin = require("./controllers/user/handleLogin");
-const handleUserImage = require("./controllers/user/handleUserImage");
-// const handleUserPhone = require("./controllers/user/handleUserPhone");
+const login = require("./controllers/user/login");
+const changeUserImage = require("./controllers/user/changeUserImage");
+// const changeUserPhone = require("./controllers/user/changeUserPhone");
 
 require("dotenv").config();
 
@@ -35,9 +35,9 @@ app.use(cors());
 app.get("/", (req, res) => res.json("root is working!"));
 app.get("/users", getUsers(User));
 app.post("/users/add", addUser(User));
-app.post("/users/login", handleLogin(User));
-app.put("/user/:code/image", handleUserImage(User));
-// app.put("/user/:code/phone", handleUserPhone(User));
+app.post("/users/login", login(User));
+app.put("/user/:code/image", changeUserImage(User));
+// app.put("/user/:code/phone", changeUserPhone(User));
 app.delete("/reset", (req, res) =>
   User.deleteMany({}).then(res.json("Success"))
 );

@@ -1,4 +1,4 @@
-const handleUserImage = (User) => (req, res) => {
+const changeUserImage = (User) => (req, res) => {
   const { code } = req.params;
   const { image } = req.body;
   User.findOneAndUpdate(
@@ -19,4 +19,4 @@ const handleUserImage = (User) => (req, res) => {
     );
 };
 
-module.exports = handleUserImage;
+module.exports = changeUserImage;

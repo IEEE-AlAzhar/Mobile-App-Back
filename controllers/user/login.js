@@ -1,4 +1,4 @@
-const handleLogin = (User) => (req, res) => {
+const login = (User) => (req, res) => {
   const { code } = req.body;
   User.findOne({ "user.code": code })
     .then((user) => {
@@ -11,4 +11,4 @@ const handleLogin = (User) => (req, res) => {
     .catch((err) => res.status(400).json(err));
 };
 
-module.exports = handleLogin;
+module.exports = login;
