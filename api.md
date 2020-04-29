@@ -20,7 +20,7 @@
 {
   "token": "averylongtoken34957345sfdghkl",
   "user": {
-    "id": "1000",
+    "code": "1000",
     "name": "username",
     "phone": "0100000000",
     "image": "https://via.placeholder.com/500?text=image+1",
@@ -138,7 +138,7 @@
 ```json
 [
   {
-    "id": "1000",
+    "code": "1000",
     "name": "username",
     "phone": "0100000000",
     "image": "https://via.placeholder.com/500?text=image+1",
@@ -175,7 +175,7 @@
     ]
   },
   {
-    "id": "1000",
+    "code": "1000",
     "name": "username",
     "phone": "0100000000",
     "image": "https://via.placeholder.com/500?text=image+1",
