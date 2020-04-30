@@ -1,5 +1,5 @@
 export interface RouteStructure {
   path: string;
   label?: string;
-  component: React.Component;
+  component: React.ReactNode;
 }

@@ -8,7 +8,7 @@ interface State {
   isSidebarVisible: boolean;
 }
 
-export default class AdminLayout extends Component<{ children }, State> {
+export default class AdminLayout extends Component<{ children: React.ReactNode }, State> {
   state = {
     isSidebarVisible: true,
   };

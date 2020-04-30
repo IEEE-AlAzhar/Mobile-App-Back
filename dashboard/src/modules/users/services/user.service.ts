@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { User } from "@globals/interfaces/user.interface";
+import { User } from "globals/interfaces/user.interface";
 
 export let addUser = async (user: User) => {
   let response = await axios.post("/users/register", user);
@@ -8,7 +8,7 @@ export let addUser = async (user: User) => {
   return response;
 };
 
-export let updateUser = async (id, user: User) => {
+export let updateUser = async (id: string, user: User) => {
   let response = await axios.put(`/users/${id}`, user);
 
   localStorage.setItem("user", JSON.stringify(user));
@@ -16,7 +16,7 @@ export let updateUser = async (id, user: User) => {
   return response;
 };
 
-export let deleteUser = async (id) => {
+export let deleteUser = async (id: string) => {
   if (window.confirm("Are you sure you want to delete this item ?")) {
     let { data } = await axios.delete(`/users/${id}`);
     return data;

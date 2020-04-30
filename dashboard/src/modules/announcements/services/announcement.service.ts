@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Announcement } from "@globals/interfaces/announcements.interface";
+import { Announcement } from "globals/interfaces/announcements.interface";
 
 export let addAnnouncement = async (announcement: Announcement) => {
   let response = await axios.post("/announcements", announcement);
@@ -7,7 +7,7 @@ export let addAnnouncement = async (announcement: Announcement) => {
   return response;
 };
 
-export let updateAnnouncement = async (id, announcement: Announcement) => {
+export let updateAnnouncement = async (id: string, announcement: Announcement) => {
   let response = await axios.put(`/announcements/${id}`, announcement);
 
   localStorage.setItem("user", JSON.stringify(announcement));
@@ -15,7 +15,7 @@ export let updateAnnouncement = async (id, announcement: Announcement) => {
   return response;
 };
 
-export let deleteAnnouncement = async (id) => {
+export let deleteAnnouncement = async (id: string) => {
   if (window.confirm("Are you sure you want to delete this item ?")) {
     let { data } = await axios.delete(`/announcements/${id}`);
     return data;
