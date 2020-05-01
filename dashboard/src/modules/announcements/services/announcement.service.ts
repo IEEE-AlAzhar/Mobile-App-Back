@@ -10,8 +10,6 @@ export let addAnnouncement = async (announcement: Announcement) => {
 export let updateAnnouncement = async (id: string, announcement: Announcement) => {
   let response = await axios.put(`/announcements/${id}`, announcement);
 
-  localStorage.setItem("user", JSON.stringify(announcement));
-
   return response;
 };
 
@@ -23,7 +21,7 @@ export let deleteAnnouncement = async (id: string) => {
 };
 
 export let getAnnouncements = async () => {
-  let { data: users } = await axios.get("/announcements");
+  let { data: announcements } = await axios.get("/announcements");
 
-  return users;
+  return announcements;
 };

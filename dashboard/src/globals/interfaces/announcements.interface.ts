@@ -3,6 +3,6 @@ export interface Announcement {
   title: string;
   body: string;
   date: string;
-  type: string;
+  type: "operation" | "technical" | "general";
   cover?: string;
 }

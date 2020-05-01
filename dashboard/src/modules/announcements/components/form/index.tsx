@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import AdminLayout from 'shared/admin-layout'
 
 export default class AnnouncementsListPage extends Component {
     render() {
         return (
-            <div>
-                
-            </div>
+            <AdminLayout>
+                Announcements
+            </AdminLayout>
         )
     }
 }

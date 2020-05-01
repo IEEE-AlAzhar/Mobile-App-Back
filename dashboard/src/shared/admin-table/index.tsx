@@ -10,7 +10,16 @@ import {
 
 import "./style.css";
 
-export default class AdminTable extends Component {
+interface Prop {
+  headers: string[];
+  config: {
+    actions: string[];
+    filters: ((filter: string) => void)[];
+  };
+  body: any[];
+}
+
+export default class AdminTable extends Component<Prop> {
   state = {};
 
   renderTableHeaders = () => {};
@@ -19,7 +28,7 @@ export default class AdminTable extends Component {
 
   renderEditBtn = () => {};
 
-  renderShowBtn = () => {}
+  renderShowBtn = () => {};
 
   formatDate = () => {
     let currentDateTime = new Date();
@@ -43,37 +52,37 @@ export default class AdminTable extends Component {
     this.formatDate();
   }
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+  // handleChange = (e) => {
+  //   this.setState({
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
-  deleteItem = () => {}
+  deleteItem = () => {};
 
-  handleImageInputChange = (e) => {
-    // this.setState({ isImageUploading: true });
-    // uploadImage(e.target.files[0]).then((res) => {
-    //   this.setState({
-    //     isImageUploading: false,
-    //     isImageUploaded: true,
-    //     image: res.data.secure_url,
-    //   });
-    // });
-  };
+  // handleImageInputChange = (e) => {
+  //   this.setState({ isImageUploading: true });
+  //   uploadImage(e.target.files[0]).then((res) => {
+  //     this.setState({
+  //       isImageUploading: false,
+  //       isImageUploaded: true,
+  //       image: res.data.secure_url,
+  //     });
+  //   });
+  // };
 
-  saveEdit = (e) => {
-    e.preventDefault();
+  // saveEdit = (e) => {
+  //   e.preventDefault();
 
-    // this.setState({ isSubmitting: true });
+  //   this.setState({ isSubmitting: true });
 
-  };
+  // };
 
   render() {
     // let { headers, body, className } = this.props;
     return (
       <>
-        <table className={`${className} table`}>
+        <table className={` table`}>
           {/* <thead>
             <tr>
               {this.renderTableHeaders(headers)}

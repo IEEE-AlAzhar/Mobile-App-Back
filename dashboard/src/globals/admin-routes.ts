@@ -1,7 +1,7 @@
 import LoginPage from "modules/users/components/loginPage";
 import AdminHome from "modules/admin-home-page";
 import UsersListPage from "modules/users/components/usersListPage";
-import AnnouncementsListPage from "modules/announcements/components/announcementsListPage";
+import AnnouncementsListPage from "modules/announcements/components/page";
 
 import { RouteStructure } from "globals/interfaces/route.interface";
 
