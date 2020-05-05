@@ -1,20 +1,21 @@
-const handleLogin = (User) => (req, res) => {
-  const { code, name, phone, image, role, type, committee } = req.body.user;
-  const { token } = req.body;
+const addUser = (User, jwt, config) => (req, res) => {
+  const { code, name, phone, image, role, type, committee } = req.body;
   User.create({
-    token,
-    user: {
-      code,
-      name,
-      phone,
-      image,
-      role,
-      type,
-      committee,
-    },
+    code,
+    name,
+    phone,
+    image,
+    role,
+    type,
+    committee,
   })
-    .then((newUser) => res.json(newUser))
+    .then((newUser) => {
+      const token = jwt.sign({ code: newUser.code }, config.secret, {
+        expiresIn: 86400,
+      });
+      res.json({ auth: true, token: token });
+    })
     .catch((err) => res.status(400).json(err));
 };
 
-module.exports = handleLogin;
+module.exports = addUser;

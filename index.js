@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
+var jwt = require("jsonwebtoken");
 
 const app = express();
 
@@ -11,6 +12,7 @@ const Announcement = require("./models/Announcement.model");
 
 // require controllers
 const getUsers = require("./controllers/user/getUsers");
+const getUser = require("./controllers/user/getUser");
 const addUser = require("./controllers/user/addUser");
 const login = require("./controllers/user/login");
 const changeUserImage = require("./controllers/user/changeUserImage");
@@ -19,9 +21,10 @@ const addAnnouncement = require("./controllers/announcement/addAnnouncement");
 const getAnnouncements = require("./controllers/announcement/getAnnouncements");
 
 require("dotenv").config();
+const config = require("./config");
 
 mongoose
-  .connect(process.env.DB_URI, {
+  .connect("mongodb://localhost:27017/mobApp" || process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -37,7 +40,8 @@ app.use(cors());
 // end-points
 app.get("/", (req, res) => res.json("root is working!"));
 app.get("/users", getUsers(User));
-app.post("/users/add", addUser(User));
+app.get("/user", getUser(jwt, config));
+app.post("/users/add", addUser(User, jwt, config));
 app.post("/user/login", login(User));
 app.put("/user/:code/image", changeUserImage(User));
 app.put("/user/:code/phone", changeUserPhone(User));

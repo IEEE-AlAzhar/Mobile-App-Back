@@ -27,40 +27,35 @@ const AchievementSchema = new Schema({
 
 // creating user schema
 const userSchema = new Schema({
-  token: {
+  code: {
+    type: String,
+    required: [true, "User code is required!"],
+    unique: true,
+  },
+  name: {
+    type: String,
+    required: [true, "Username is required!"],
+  },
+  phone: {
+    type: String,
+    required: [true, "Phone number is required!"],
+  },
+  image: {
     type: String,
   },
-  user: {
-    code: {
-      type: String,
-      required: [true, "User code is required!"],
-      unique: true,
-    },
-    name: {
-      type: String,
-      required: [true, "Username is required!"],
-    },
-    phone: {
-      type: String,
-      required: [true, "Phone number is required!"],
-    },
-    image: {
-      type: String,
-    },
-    role: {
-      type: String,
-    },
-    type: {
-      type: String,
-      required: [true, "user type is required!"],
-    },
-    committee: {
-      type: String,
-      required: [true, "user committee is required!"],
-    },
-    feedbacks: FeedbackSchema,
-    achievements: AchievementSchema,
+  role: {
+    type: String,
   },
+  type: {
+    type: String,
+    required: [true, "user type is required!"],
+  },
+  committee: {
+    type: String,
+    required: [true, "user committee is required!"],
+  },
+  feedbacks: FeedbackSchema,
+  achievements: AchievementSchema,
 });
 
 const User = mongoose.model("User", userSchema);
