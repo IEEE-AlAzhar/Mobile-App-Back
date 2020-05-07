@@ -2,12 +2,13 @@ import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 import "./style.css";
 
 interface Prop {
   config: {
-    tableHeaders: string[];
+    tableHeaders: any[];
     className: string;
     actions: string[];
     filters?: ((filter: string) => void)[];
@@ -21,20 +22,44 @@ export default class AdminTable extends Component<Prop> {
   renderTableHeaders = () => {
     let { tableHeaders } = this.props.config;
 
-    return tableHeaders.map((header, index) => (
-      <th key={index} scope="col">
-        {header.toUpperCase()}
-      </th>
-    ));
+    return tableHeaders.map((header: any, index) => {
+      if (typeof header === "object") {
+        return (
+          <th key={index} scope="col">
+            {header.name.toUpperCase()}
+          </th>
+        );
+      } else {
+        return (
+          <th key={index} scope="col">
+            {header.toUpperCase()}
+          </th>
+        );
+      }
+    });
   };
 
   renderTableBody = () => {
     let { tableBody, config } = this.props;
     return tableBody.map((item, index) => (
       <tr key={index}>
-        {this.props.config.tableHeaders.map((keyHeader) => (
-          <td key={keyHeader}> {item[keyHeader]} </td>
-        ))}
+        {this.props.config.tableHeaders.map((keyHeader: any) => {
+          if (typeof keyHeader === "object") {
+            return (
+              <td key={keyHeader.name}>
+                <Link
+                  to={`${keyHeader.href}/${
+                    keyHeader.params ? item[keyHeader.params] : ""
+                  }`}
+                >
+                  {item[keyHeader.name]}
+                </Link>
+              </td>
+            );
+          } else {
+            return <td key={keyHeader}> {item[keyHeader]} </td>;
+          }
+        })}
         <td>
           {config.actions.includes("edit") && this.renderEditBtn(item)}
           {config.actions.includes("delete") && this.renderDeleteBtn(item)}
@@ -63,33 +88,14 @@ export default class AdminTable extends Component<Prop> {
     let { deleteRow } = this.props;
 
     return (
-      <button className="btn btn-danger" onClick={() => deleteRow(item._id, false)}>
+      <button
+        className="btn btn-danger"
+        onClick={() => deleteRow(item._id, false)}
+      >
         <FontAwesomeIcon icon={faTrash} />
       </button>
     );
   };
-
-  formatDate = () => {
-    let currentDateTime = new Date();
-    let formattedDate =
-      currentDateTime.getFullYear() +
-      "-" +
-      (currentDateTime.getMonth() + 1) +
-      "-" +
-      currentDateTime.getDate();
-
-    this.setState({
-      date: formattedDate,
-    });
-  };
-
-  removeImage = () => {
-    this.setState({ image: "" });
-  };
-
-  componentDidMount() {
-    this.formatDate();
-  }
 
   render() {
     let { className } = this.props.config;

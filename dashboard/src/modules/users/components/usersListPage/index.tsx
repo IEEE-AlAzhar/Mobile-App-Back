@@ -38,7 +38,11 @@ interface State {
 
 export default class UsersListPage extends Component<Prop, State> {
   tableConfig = {
-    tableHeaders: ["name", "email", "committee"],
+    tableHeaders: [
+      { name: "name", href: "/users", params: "_id" },
+      "email",
+      "committee",
+    ],
     className: "table-striped",
     actions: ["edit", "delete"],
   };
