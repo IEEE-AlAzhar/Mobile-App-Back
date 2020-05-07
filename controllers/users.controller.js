@@ -25,10 +25,10 @@ server.post("/register", async (request, response) => {
   let { code, name, email, phone, image, role, type, committee } = request.body;
 
   User.find({ email }).then((usr, err) => {
-    if (usr.length > 0) {
+    if (usr && usr.length > 0) {
       return response.status(400).json({ message: "User already exists" });
     } else {
-      let user = new User({
+      User.create({
         code,
         name,
         email,
@@ -37,11 +37,16 @@ server.post("/register", async (request, response) => {
         role,
         type,
         committee,
-      });
-
-      user.save().then(() => {
-        response.sendStatus(201);
-      });
+      })
+        .then((record) => {
+          response.json(record);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          response.status(500).json({
+            msg: "An error occurred",
+          });
+        });
     }
   });
 });
@@ -82,7 +87,7 @@ server.put("/:id/image", (req, res) => {
     );
 });
 
-server.delete("/:id", ensureAuth, (request, response) => {
+server.delete("/:id", (request, response) => {
   let id = request.params.id;
 
   User.findByIdAndDelete(id).then(() => {

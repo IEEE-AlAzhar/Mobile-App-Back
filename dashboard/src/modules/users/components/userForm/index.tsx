@@ -9,6 +9,8 @@ import { User } from "globals/interfaces/user.interface";
 import Loading from "shared/loading";
 import FormInput from "shared/Input";
 import ImageInput from "shared/image-input";
+import { getCommittees } from "modules/users/services/committee.service";
+import { Committee } from "globals/interfaces/committee.interface";
 
 interface Prop {
   isModalOpened: boolean;
@@ -22,6 +24,7 @@ interface State {
   user: User;
   isLoading: boolean;
   isImageUploading: boolean;
+  committees: string[];
 }
 
 export default class UserForm extends Component<Prop, State> {
@@ -36,6 +39,7 @@ export default class UserForm extends Component<Prop, State> {
       type: "",
       committee: "",
     },
+    committees: [] as string[],
     isLoading: false,
     isImageUploading: false,
   };
@@ -47,6 +51,12 @@ export default class UserForm extends Component<Prop, State> {
       itemToBeEdited.date = this.formatDate();
       this.setState({ user: itemToBeEdited });
     }
+
+    getCommittees().then((response) => {
+      this.setState({
+        committees: this.generateArrayOfCommitteesNames(response),
+      });
+    });
   }
 
   setImageUpload = (status: boolean, imageUrl?: string) => {
@@ -93,7 +103,7 @@ export default class UserForm extends Component<Prop, State> {
       },
       () => {
         this.props.onSubmit(this.state.user, true).then(() => {
-          this.resetObj(user);
+          // this.resetObj(user);
           this.setState({ user: user });
         });
       }
@@ -117,6 +127,13 @@ export default class UserForm extends Component<Prop, State> {
     });
   };
 
+  generateArrayOfCommitteesNames = (committeesArray: Committee[]): string[] => {
+    let committeesNames: string[] = [];
+    committeesArray.map(({ name }) => committeesNames.push(name));
+
+    return committeesNames;
+  };
+
   render() {
     let {
       isModalOpened,
@@ -124,7 +141,7 @@ export default class UserForm extends Component<Prop, State> {
       closeModal,
       isSubmitting,
     } = this.props;
-    let { user, isLoading, isImageUploading } = this.state;
+    let { user, isLoading, isImageUploading, committees } = this.state;
 
     return (
       <Modal
@@ -163,7 +180,7 @@ export default class UserForm extends Component<Prop, State> {
                   <FormInput
                     type="select"
                     className="form-control"
-                    options={["Admin", "Board"]}
+                    options={["Admin", "Board", "Member"]}
                     required={true}
                     label="Type"
                     id="type"
@@ -225,9 +242,7 @@ export default class UserForm extends Component<Prop, State> {
                     type="select"
                     className="form-control"
                     options={
-                      [
-                        /* get committees by the service */
-                      ]
+                      committees && committees.length > 0 ? committees : []
                     }
                     required={true}
                     label="Committee"

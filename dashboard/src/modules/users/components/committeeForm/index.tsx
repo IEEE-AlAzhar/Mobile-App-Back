@@ -75,20 +75,10 @@ export default class CommitteeForm extends Component<Prop, State> {
     e.preventDefault();
 
     let { committee } = this.state;
-
-    this.setState(
-      {
-        committee: {
-          ...committee,
-        } as any,
-      },
-      () => {
-        this.props.onSubmit(this.state.committee, true).then(() => {
-          this.resetObj(committee);
-          this.setState({ committee: committee });
-        });
-      }
-    );
+    this.props.onSubmit(committee, true).then(() => {
+      this.resetObj(committee);
+      this.setState({ committee: committee });
+    });
   };
 
   resetObj(obj: any) {
@@ -126,11 +116,11 @@ export default class CommitteeForm extends Component<Prop, State> {
             <h3 className="mb-3"> Add new committee </h3>
             <form onSubmit={this.handleSubmit}>
               <div className="row">
-                <div className="form-group col-md-6">
+                <div className="form-group col-md-12">
                   <FormInput
                     type="text"
                     required={true}
-                    placeholder="User name"
+                    placeholder="Committee name"
                     label="Name"
                     id="name"
                     name="name"

@@ -1,7 +1,7 @@
 const express = require("express");
 const server = express.Router();
 
-const Announcement = require("./models/Announcement.model");
+const Announcement = require("../models/Announcement.model");
 
 server.get("/list", async (req, res) => {
   try {
@@ -34,7 +34,7 @@ server.post("/new", async (req, res) => {
 });
 
 // Edit the record
-server.put("/:id", ensureAuth, (req, res) => {
+server.put("/:id", (req, res) => {
   try {
     let id = req.params.id;
 
@@ -53,7 +53,7 @@ server.put("/:id", ensureAuth, (req, res) => {
 });
 
 // Delete the record
-server.delete("/:id", ensureAuth, (req, res) => {
+server.delete("/:id", (req, res) => {
   let id = req.params.id;
 
   Announcement.findByIdAndRemove(id)

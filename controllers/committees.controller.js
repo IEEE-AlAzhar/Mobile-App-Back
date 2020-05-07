@@ -1,30 +1,26 @@
 const express = require("express");
 const server = express.Router();
 
-const Announcement = require("./models/Announcement.model");
+const Committee = require("../models/Committee.model");
 
 server.get("/list", async (req, res) => {
   try {
-    let announcementsList = await Announcement.find({});
-    res.json(announcementsList);
+    let committeesList = await Committee.find({});
+    res.json(committeesList);
   } catch {
     res.status(500).json({ msg: "An error occurred" });
   }
 });
 
 server.post("/new", async (req, res) => {
-  let { title, body, cover, date, type } = req.body;
+  let { name } = req.body;
 
-  let AnnouncementItem = new Announcement({
-    title,
-    body,
-    date,
-    cover,
-    date,
-    type,
+  let committeeItem = new Committee({
+    name,
   });
 
-  AnnouncementItem.save()
+  committeeItem
+    .save()
     .then((record) => {
       res.json(record);
     })
@@ -34,15 +30,15 @@ server.post("/new", async (req, res) => {
 });
 
 // Edit the record
-server.put("/:id", ensureAuth, (req, res) => {
+server.put("/:id", (req, res) => {
   try {
     let id = req.params.id;
 
-    let { title, body, cover, date, type } = req.body;
+    let { name } = req.body;
 
-    Announcement.findByIdAndUpdate(
+    Committee.findByIdAndUpdate(
       id,
-      { title, body, cover, date, type },
+      { name },
       { new: true }
     ).then((record) => {
       res.json(record);
@@ -53,10 +49,10 @@ server.put("/:id", ensureAuth, (req, res) => {
 });
 
 // Delete the record
-server.delete("/:id", ensureAuth, (req, res) => {
+server.delete("/:id", (req, res) => {
   let id = req.params.id;
 
-  Announcement.findByIdAndRemove(id)
+  Committee.findByIdAndRemove(id)
     .then(() => {
       res.sendStatus(200);
     })

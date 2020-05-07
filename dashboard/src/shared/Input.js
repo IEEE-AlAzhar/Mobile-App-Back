@@ -224,7 +224,7 @@ export default class FormInput extends Component {
       "minDate",
       "maxDate",
       "regPattern",
-      "options"
+      "options",
     ];
     return typeof prop !== "object" && !acceptableProps.includes(prop);
   };
@@ -265,6 +265,9 @@ export default class FormInput extends Component {
 
         {type === "select" ? (
           <select {...this.getAcceptedProps()}>
+            <option value="" disabled>
+              Choose {label}
+            </option>
             {options &&
               options.map((option, idx) => (
                 <option value={option} key={idx}>
@@ -289,7 +292,7 @@ export default class FormInput extends Component {
             }
             className={`form-control ${className}`}
             onInput={this.validateField}
-            value={value || ''}
+            value={value || ""}
           />
         )}
       </section>
