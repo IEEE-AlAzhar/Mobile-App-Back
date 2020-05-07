@@ -3,15 +3,15 @@ import React, { Component } from "react";
 import AdminLayout from "shared/admin-layout";
 import AdminTable from "shared/admin-table";
 import Loading from "shared/loading";
-import UserForm from "../userForm";
+import CommitteeForm from "../committeeForm";
 
 import {
-  getUsers,
-  updateUser,
-  deleteUser,
-  addUser,
-} from "modules/users/services/user.service";
-import { User } from "globals/interfaces/user.interface";
+  getCommittees,
+  updateCommittee,
+  deleteCommittee,
+  addCommittee,
+} from "modules/users/services/committee.service";
+import { Committee } from "globals/interfaces/committee.interface";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,8 +26,8 @@ interface Prop {
 }
 
 interface State {
-  users: User[];
-  userToBeEdited?: User | null;
+  committees: Committee[];
+  committeeToBeEdited?: Committee | null;
   successAlert: string;
   errorAlert: string;
   isLoading: boolean;
@@ -36,18 +36,18 @@ interface State {
   idOfItemToBeDeleted: string;
 }
 
-export default class UsersListPage extends Component<Prop, State> {
+export default class CommitteesListPage extends Component<Prop, State> {
   tableConfig = {
-    tableHeaders: ["name", "email", "committee"],
+    tableHeaders: ["name"],
     className: "table-striped",
     actions: ["edit", "delete"],
   };
 
   state = {
-    users: [] as User[],
+    committees: [] as Committee[],
     successAlert: "",
     errorAlert: "",
-    userToBeEdited: {} as User,
+    committeeToBeEdited: {} as Committee,
     isLoading: false,
     isCreateModalOpened: false,
     isSubmitting: false,
@@ -58,28 +58,28 @@ export default class UsersListPage extends Component<Prop, State> {
     // if (!isUserLoggedIn()) return this.props.history.push("/login");
     this.setState({ isLoading: true });
     try {
-      let users = await getUsers();
+      let committees = await getCommittees();
 
-      this.setState({ users, isLoading: false });
+      this.setState({ committees, isLoading: false });
     } catch {
       this.setState({ errorAlert: "Error retrieving items", isLoading: false });
     }
   }
 
-  createUser = (user: User) => {
-    let { users } = this.state;
+  createCommittee = (committee: Committee) => {
+    let { committees } = this.state;
 
     this.setState({
       isSubmitting: true,
     });
 
-    return addUser(user)
+    return addCommittee(committee)
       .then((response) => {
-        users.unshift(response as never);
+        committees.unshift(response as never);
 
         this.setState({
-          users,
-          successAlert: "User added successfully",
+          committees,
+          successAlert: "Committee added successfully",
           errorAlert: "",
           isCreateModalOpened: false,
           isSubmitting: false,
@@ -94,48 +94,48 @@ export default class UsersListPage extends Component<Prop, State> {
       });
   };
 
-  editUser = (
-    user: User,
+  editCommittee = (
+    committee: Committee,
     submit: boolean,
-    id = this.state.userToBeEdited._id
+    id = this.state.committeeToBeEdited._id
   ) => {
     if (submit) {
       this.setState({
         isSubmitting: true,
       });
-      return updateUser(id, user).then((response) => {
-        this.updateStateWithNewUser(response);
+      return updateCommittee(id, committee).then((response) => {
+        this.updateStateWithNewCommittee(response);
         this.setState({
           isSubmitting: false,
-          userToBeEdited: {} as User,
+          committeeToBeEdited: {} as Committee,
         });
       });
     } else {
       this.setState({
         isSubmitting: false,
-        userToBeEdited: user,
+        committeeToBeEdited: committee,
       });
     }
   };
 
-  updateStateWithNewUser = (user: User) => {
-    let { users } = this.state;
-    let objectToUpdateIndex: number = users.findIndex(
-      (item: User) => item._id === user._id
+  updateStateWithNewCommittee = (committee: Committee) => {
+    let { committees } = this.state;
+    let objectToUpdateIndex: number = committees.findIndex(
+      (item: Committee) => item._id === committee._id
     );
 
-    users.splice(objectToUpdateIndex, 1, user as never);
+    committees.splice(objectToUpdateIndex, 1, committee as never);
 
-    this.setState({ users });
+    this.setState({ committees });
   };
 
-  removeUser = (id: string, submit?: boolean) => {
-    let { users } = this.state;
+  removeCommittee = (id: string, submit?: boolean) => {
+    let { committees } = this.state;
 
     if (submit) {
-      deleteUser(id).then(() => {
+      deleteCommittee(id).then(() => {
         this.setState({
-          users: users.filter((item: User) => item._id !== id),
+          committees: committees.filter((item: Committee) => item._id !== id),
         });
       });
     } else {
@@ -147,10 +147,10 @@ export default class UsersListPage extends Component<Prop, State> {
 
   render() {
     let {
-      users,
+      committees,
       successAlert,
       errorAlert,
-      userToBeEdited,
+      committeeToBeEdited,
       idOfItemToBeDeleted,
       isLoading,
       isCreateModalOpened,
@@ -160,47 +160,47 @@ export default class UsersListPage extends Component<Prop, State> {
     return (
       <AdminLayout>
         <header className="d-flex justify-content-between container mt-5">
-          <h2> Users </h2>
+          <h2> Committees </h2>
           <button
             className="btn btn-success"
             onClick={() => this.setState({ isCreateModalOpened: true })}
           >
-            <FontAwesomeIcon icon={faPlus} /> Create New User
+            <FontAwesomeIcon icon={faPlus} /> Create New Committee
           </button>
         </header>
         {isLoading ? (
           <div className="text-center mt-5">
             <Loading />
           </div>
-        ) : users.length > 0 ? (
+        ) : committees.length > 0 ? (
           <div className="container mt-5">
             <AdminTable
               config={this.tableConfig}
-              triggerEditEvent={this.editUser}
-              deleteRow={this.removeUser}
-              tableBody={users as any}
+              triggerEditEvent={this.editCommittee}
+              deleteRow={this.removeCommittee}
+              tableBody={committees as any}
             />
           </div>
         ) : (
           <div className="text-center my-5">
-            <p>No users yet</p>
+            <p>No committees yet</p>
           </div>
         )}
 
-        {Object.keys(userToBeEdited).length > 1 && (
-          <UserForm
-            isModalOpened={Object.keys(userToBeEdited).length > 1}
-            itemToBeEdited={userToBeEdited}
-            onSubmit={this.editUser}
+        {Object.keys(committeeToBeEdited).length > 1 && (
+          <CommitteeForm
+            isModalOpened={Object.keys(committeeToBeEdited).length > 1}
+            itemToBeEdited={committeeToBeEdited}
+            onSubmit={this.editCommittee}
             isSubmitting={isSubmitting}
-            closeModal={() => this.setState({ userToBeEdited: {} as User })}
+            closeModal={() => this.setState({ committeeToBeEdited: {} as Committee })}
           />
         )}
 
-        <UserForm
+        <CommitteeForm
           isModalOpened={isCreateModalOpened}
           isSubmitting={isSubmitting}
-          onSubmit={this.createUser}
+          onSubmit={this.createCommittee}
           closeModal={() => this.setState({ isCreateModalOpened: false })}
         />
 
@@ -229,7 +229,7 @@ export default class UsersListPage extends Component<Prop, State> {
           confirmBtnBsStyle="danger"
           title="Are you sure?"
           onConfirm={() => {
-            this.removeUser(idOfItemToBeDeleted, true);
+            this.removeCommittee(idOfItemToBeDeleted, true);
             this.setState({ idOfItemToBeDeleted: "" });
           }}
           onCancel={() => this.setState({ idOfItemToBeDeleted: "" })}

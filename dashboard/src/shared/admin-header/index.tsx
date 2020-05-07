@@ -21,17 +21,15 @@ export default class AdminHeader extends Component<Prop> {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void = () => {
     logout().then(() => {
-      window.location.href = "/admin/login";
+      window.location.href = "/login";
     });
   };
 
   render() {
-    let userObject = localStorage.getItem("user");
-    let user = typeof userObject === "string" && JSON.parse(userObject);
     return (
       <nav className="navbar admin-header navbar-expand-lg">
         <button
-          className="btn text-muted nav-item d-lg-none"
+          className="btn text-muted nav-item d-md-none"
           style={{ marginLeft: this.props.isVisible ? "245px" : "0" }}
           onClick={this.props.toggleSidebar}
         >
@@ -41,8 +39,6 @@ export default class AdminHeader extends Component<Prop> {
           />
         </button>
         <ul className="navbar-nav ml-auto">
-          {user && <li className="nav-item text-muted pt-1">{user.name}</li>}
-
           <li className="nav-item">
             <button
               className="btn btn-link text-muted"

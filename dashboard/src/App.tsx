@@ -22,7 +22,7 @@ export default class App extends Component<RouteProps> {
               <Route
                 key={`adRoute${index}`}
                 exact
-                path={`/admin${adRoute.path}`}
+                path={adRoute.path}
                 component={adRoute.component as any}
               />
             );

@@ -20,7 +20,14 @@ app.use(express.json());
 
 app.use(cors());
 
-// Add controllers here
+const userController = require("./controllers/users.controller");
+app.use("/api/users", userController);
+
+const announcementController = require("./controllers/announcements.controller");
+app.use("/api/announcements", announcementController);
+
+const committeeController = require("./controllers/committees.controller");
+app.use("/api/committees", committeeController);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "public")));

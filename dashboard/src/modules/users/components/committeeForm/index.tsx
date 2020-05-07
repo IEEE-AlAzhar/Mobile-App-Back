@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 
-import { Announcement } from "globals/interfaces/announcement.interface";
+import { Committee } from "globals/interfaces/committee.interface";
 import Loading from "shared/loading";
 import FormInput from "shared/Input";
 import ImageInput from "shared/image-input";
@@ -17,18 +17,15 @@ interface Prop {
 }
 
 interface State {
-  announcement: Announcement;
+  committee: Committee;
   isLoading: boolean;
   isImageUploading: boolean;
 }
 
-export default class AnnouncementForm extends Component<Prop, State> {
+export default class CommitteeForm extends Component<Prop, State> {
   state = {
-    announcement: {
-      title: "",
-      body: "",
-      cover: "",
-      type: "",
+    committee: {
+      name: "",
     },
     isLoading: false,
     isImageUploading: false,
@@ -39,7 +36,7 @@ export default class AnnouncementForm extends Component<Prop, State> {
 
     if (itemToBeEdited) {
       itemToBeEdited.date = this.formatDate();
-      this.setState({ announcement: itemToBeEdited });
+      this.setState({ committee: itemToBeEdited });
     }
   }
 
@@ -47,7 +44,7 @@ export default class AnnouncementForm extends Component<Prop, State> {
     this.setState({ isImageUploading: status });
     if (imageUrl)
       this.setState({
-        announcement: { ...this.state.announcement, cover: imageUrl } as any,
+        committee: { ...this.state.committee, image: imageUrl } as any,
       });
   };
 
@@ -67,8 +64,8 @@ export default class AnnouncementForm extends Component<Prop, State> {
     let { name, value } = e.currentTarget;
 
     this.setState({
-      announcement: {
-        ...this.state.announcement,
+      committee: {
+        ...this.state.committee,
         [name]: value,
       } as any,
     });
@@ -77,19 +74,18 @@ export default class AnnouncementForm extends Component<Prop, State> {
   handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    let { announcement } = this.state;
+    let { committee } = this.state;
 
     this.setState(
       {
-        announcement: {
-          ...announcement,
-          date: this.formatDate(),
+        committee: {
+          ...committee,
         } as any,
       },
       () => {
-        this.props.onSubmit(this.state.announcement, true).then(() => {
-          this.resetObj(announcement);
-          this.setState({ announcement: announcement });
+        this.props.onSubmit(this.state.committee, true).then(() => {
+          this.resetObj(committee);
+          this.setState({ committee: committee });
         });
       }
     );
@@ -108,7 +104,7 @@ export default class AnnouncementForm extends Component<Prop, State> {
       closeModal,
       isSubmitting,
     } = this.props;
-    let { announcement, isLoading, isImageUploading } = this.state;
+    let { committee, isLoading, isImageUploading } = this.state;
 
     return (
       <Modal
@@ -127,59 +123,23 @@ export default class AnnouncementForm extends Component<Prop, State> {
           <Loading />
         ) : (
           <>
-            <h3 className="mb-3"> Add new Announcement </h3>
+            <h3 className="mb-3"> Add new committee </h3>
             <form onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="form-group col-md-6">
                   <FormInput
                     type="text"
                     required={true}
-                    placeholder="blog title"
-                    label="Title"
-                    id="title"
-                    name="title"
+                    placeholder="User name"
+                    label="Name"
+                    id="name"
+                    name="name"
                     errorPosition="bottom"
-                    value={announcement.title}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className="form-group col-md-6">
-                  <FormInput
-                    type="select"
-                    className="form-control"
-                    options={["General", "Technical", "Operation"]}
-                    required={true}
-                    label="Type"
-                    id="type"
-                    name="type"
-                    errorPosition="bottom"
-                    value={announcement.type}
+                    value={committee.name}
                     onChange={this.handleChange}
                   />
                 </div>
               </div>
-
-              <div className="row">
-                <div className="form-group col-12">
-                  <FormInput
-                    type="textarea"
-                    required={true}
-                    label="body"
-                    id="body"
-                    name="body"
-                    rows="5"
-                    errorPosition="bottom"
-                    value={announcement.body}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-
-              <ImageInput
-                imgUrl={announcement.cover}
-                setImageUpload={this.setImageUpload}
-              />
-
               <button
                 type="submit"
                 className="btn btn-primary"

@@ -567,14 +567,12 @@
 
 ```json
 {
-  "announcement": {
-    "_id": "sdfsaf43545",
-    "title": "Announcement 1",
-    "body": "Fake data for announcement ",
-    "date": "26-04-2020",
-    "type": "operation", // or 'general'/'technical'
-    "cover": "https://via.placeholder.com/500?text=image+1"
-  }
+  "_id": "sdfsaf43545",
+  "title": "Announcement 1",
+  "body": "Fake data for announcement ",
+  "date": "26-04-2020",
+  "type": "operation", // or 'general'/'technical'
+  "cover": "https://via.placeholder.com/500?text=image+1"
 }
 ```
 

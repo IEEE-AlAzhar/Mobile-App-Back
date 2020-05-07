@@ -1,4 +1,4 @@
 export const isUserLoggedIn = (): boolean => {
-  if (localStorage.getItem("user")) return true;
+  if (localStorage.getItem("token")) return true;
   else return false;
 };

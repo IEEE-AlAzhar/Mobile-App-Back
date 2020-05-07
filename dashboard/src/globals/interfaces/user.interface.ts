@@ -1,21 +1,16 @@
+import { Feedback } from "./feedback.interface";
+import { Achievement } from "./achievement.interface";
+
 export interface User {
   _id?: string;
+  code: string;
   name: string;
-  phone: number;
+  email: string;
+  phone: string;
   image: string;
   role: string;
   type: string;
   committee: string;
-  feedbacks: {
-    _id: string;
-    title: string;
-    date: string;
-    body: string;
-  }[];
-  achievements: {
-    _id: string;
-    title: string;
-    date: string;
-    description: string;
-  }[];
+  feedbacks?: Feedback[];
+  achievements?: Achievement[];
 }

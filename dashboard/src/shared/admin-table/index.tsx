@@ -1,34 +1,73 @@
 import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faEdit,
-  faTimes,
-  faEye,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import "./style.css";
 
 interface Prop {
-  headers: string[];
   config: {
+    tableHeaders: string[];
+    className: string;
     actions: string[];
-    filters: ((filter: string) => void)[];
+    filters?: ((filter: string) => void)[];
   };
-  body: any[];
+  tableBody: any[];
+  triggerEditEvent?: (item: any, submit: boolean, id?: string) => void;
+  deleteRow: (id: string, isToBeSubmitted: boolean) => void;
 }
 
 export default class AdminTable extends Component<Prop> {
-  state = {};
+  renderTableHeaders = () => {
+    let { tableHeaders } = this.props.config;
 
-  renderTableHeaders = () => {};
+    return tableHeaders.map((header, index) => (
+      <th key={index} scope="col">
+        {header.toUpperCase()}
+      </th>
+    ));
+  };
 
-  renderTableBody = () => {};
+  renderTableBody = () => {
+    let { tableBody, config } = this.props;
+    return tableBody.map((item, index) => (
+      <tr key={index}>
+        {this.props.config.tableHeaders.map((keyHeader) => (
+          <td key={keyHeader}> {item[keyHeader]} </td>
+        ))}
+        <td>
+          {config.actions.includes("edit") && this.renderEditBtn(item)}
+          {config.actions.includes("delete") && this.renderDeleteBtn(item)}
+        </td>
+      </tr>
+    ));
+  };
 
-  renderEditBtn = () => {};
+  renderEditBtn = (item: any) => {
+    let { triggerEditEvent } = this.props;
 
-  renderShowBtn = () => {};
+    return (
+      <button
+        className="btn btn-secondary mr-2"
+        data-toggle="modal"
+        data-target="#editModal"
+        title="Edit Item"
+        onClick={() => triggerEditEvent(item, false, item._id)}
+      >
+        <FontAwesomeIcon icon={faEdit} />
+      </button>
+    );
+  };
+
+  renderDeleteBtn = (item: any) => {
+    let { deleteRow } = this.props;
+
+    return (
+      <button className="btn btn-danger" onClick={() => deleteRow(item._id, false)}>
+        <FontAwesomeIcon icon={faTrash} />
+      </button>
+    );
+  };
 
   formatDate = () => {
     let currentDateTime = new Date();
@@ -52,74 +91,20 @@ export default class AdminTable extends Component<Prop> {
     this.formatDate();
   }
 
-  // handleChange = (e) => {
-  //   this.setState({
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
-  deleteItem = () => {};
-
-  // handleImageInputChange = (e) => {
-  //   this.setState({ isImageUploading: true });
-  //   uploadImage(e.target.files[0]).then((res) => {
-  //     this.setState({
-  //       isImageUploading: false,
-  //       isImageUploaded: true,
-  //       image: res.data.secure_url,
-  //     });
-  //   });
-  // };
-
-  // saveEdit = (e) => {
-  //   e.preventDefault();
-
-  //   this.setState({ isSubmitting: true });
-
-  // };
-
   render() {
-    // let { headers, body, className } = this.props;
+    let { className } = this.props.config;
     return (
       <>
-        <table className={` table`}>
-          {/* <thead>
+        <table className={`${className} table`}>
+          <thead>
             <tr>
-              {this.renderTableHeaders(headers)}
+              {this.renderTableHeaders()}
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>{this.renderTableBody(body)}</tbody> */}
+          <tbody>{this.renderTableBody()}</tbody>
         </table>
       </>
     );
   }
-
-  // renderImagePreview = () => (
-  //   <section className="img-preview">
-  //     <img
-  //       src={this.state.image}
-  //       className="d-block"
-  //       width="100%"
-  //       alt="Preview"
-  //     />
-  //     <span onClick={this.removeImage} className="preview-dismiss">
-  //       <FontAwesomeIcon icon={faTimes} />
-  //     </span>
-  //   </section>
-  // );
-
-  // renderImageUpload = () => (
-  //   <div className="form-group">
-  //     <label htmlFor="image">Upload Image</label>
-  //     <input
-  //       type="file"
-  //       onChange={this.handleImageInputChange}
-  //       className="form-control-file"
-  //       id="image"
-  //       accept="image/*"
-  //       name="image"
-  //     />
-  //   </div>
-  // );
 }

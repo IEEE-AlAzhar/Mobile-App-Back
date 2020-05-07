@@ -15,7 +15,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "typeRoots": ["node_modules/@types"],
-    "noEmit": true
+    "noEmit": true,
+    "strictNullChecks": false
   },
   "include": ["src"]
 }

@@ -4,11 +4,11 @@ import "./style.css";
 
 import { NavLink } from "react-router-dom";
 
-import {adminRoutes} from "globals/admin-routes";
-import {RouteStructure} from "globals/interfaces/route.interface";
+import { adminRoutes } from "globals/admin-routes";
+import { RouteStructure } from "globals/interfaces/route.interface";
 
 interface Prop {
-  isVisible: boolean
+  isVisible: boolean;
 }
 
 export default class AdminSidebar extends Component<Prop> {
@@ -17,7 +17,7 @@ export default class AdminSidebar extends Component<Prop> {
       if (adRoute.label) {
         return (
           <li key={index} className="sidebarItem">
-            <NavLink exact to={`/admin${adRoute.path}`}>
+            <NavLink exact to={adRoute.path}>
               {adRoute.label}
             </NavLink>
           </li>
@@ -29,8 +29,8 @@ export default class AdminSidebar extends Component<Prop> {
   render() {
     return (
       <aside
-        className="adminSidebar"
-        style={{ left: !this.props.isVisible ? "-245px": "0" }}
+        className="adminSidebar text-center"
+        style={{ left: !this.props.isVisible ? "-245px" : "0" }}
       >
         <h1> Admin Dashboard </h1>
         <ul className="list-unstyled mt-2">{this.renderAdminRoutes()}</ul>
