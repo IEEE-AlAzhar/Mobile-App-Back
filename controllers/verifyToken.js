@@ -1,4 +1,7 @@
-const verifyToken = (jwt, config) => (req, res, next) => {
+const jwt = require("jsonwebtoken");
+const config = require("../config");
+
+const verifyToken = () => (req, res, next) => {
   const token = req.headers["x-access-token"];
   if (!token)
     return res.status(403).json({ auth: false, message: "No token provided." });

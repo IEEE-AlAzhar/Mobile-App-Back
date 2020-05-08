@@ -1,7 +1,5 @@
 const express = require("express");
 const server = express.Router();
-const jwt = require("jsonwebtoken");
-const config = require("../config");
 
 // require models
 const User = require("../models/User.model");
@@ -25,41 +23,45 @@ const editFeedback = require("./user/editFeedback");
 const deleteFeedback = require("./user/deleteFeedback");
 
 // user end-points
-server.get("/list", verifyToken(jwt, config), getUsers(User));
-server.get("/:_id", verifyToken(jwt, config), getUser(User));
-server.post("/create", verifyToken(jwt, config), createUser(User));
-server.put("/:_id/image", verifyToken(jwt, config), changeUserImage(User));
-server.put("/:_id/phone", verifyToken(jwt, config), changeUserPhone(User));
-server.post("/login", login(User, jwt, config));
-server.delete("/:_id", verifyToken(jwt, config), deleteUser(User));
+server.get("/list", verifyToken(), getUsers(User));
+
+server.get("/:_id", verifyToken(), getUser(User));
+
+server.post("/create", verifyToken(), createUser(User));
+
+server.put("/:_id/image", verifyToken(), changeUserImage(User));
+
+server.put("/:_id/phone", verifyToken(), changeUserPhone(User));
+
+server.post("/login", login(User));
+
+server.delete("/:_id", verifyToken(), deleteUser(User));
+
 server.post(
   "/:id/achievements/new",
-  verifyToken(jwt, config),
+  verifyToken(),
   addAchievement(User, Achievement)
 );
+
 server.put(
   "/achievements/:achievementId",
-  verifyToken(jwt, config),
+  verifyToken(),
   editAchievement(Achievement)
 );
+
 server.delete(
   "/:id/achievements/:achievementId",
-  verifyToken(jwt, config),
+  verifyToken(),
   deleteAchievement(Achievement, User)
 );
-server.post(
-  "/:id/feedbacks/new",
-  verifyToken(jwt, config),
-  addFeedback(User, Feedback)
-);
-server.put(
-  "/:id/feedbacks/:feedbackId",
-  verifyToken(jwt, config),
-  editFeedback(Feedback)
-);
+
+server.post("/:id/feedbacks/new", verifyToken(), addFeedback(User, Feedback));
+
+server.put("/:id/feedbacks/:feedbackId", verifyToken(), editFeedback(Feedback));
+
 server.delete(
   "/:id/feedbacks/:feedbackId",
-  verifyToken(jwt, config),
+  verifyToken(),
   deleteFeedback(Feedback, User)
 );
 
