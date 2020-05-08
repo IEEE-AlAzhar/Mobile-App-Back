@@ -1,7 +1,7 @@
 const changeUserPhone = (User) => (req, res) => {
-  const { id } = req.params;
+  const { _id } = req.params;
   const { phone } = req.body;
-  User.findOneAndUpdate({ _id: id }, { $set: { phone: phone } }, { new: true })
+  User.findOneAndUpdate({ _id }, { $set: { phone: phone } }, { new: true })
     .then((data) => {
       res.json({ phone: data.phone });
     })

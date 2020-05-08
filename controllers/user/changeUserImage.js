@@ -1,7 +1,8 @@
 const changeUserImage = (User) => (req, res) => {
-  const { id } = req.params;
+  console.log(req.params);
+  const { _id } = req.params;
   const { image } = req.body;
-  User.findOneAndUpdate({ _id: id }, { $set: { image: image } }, { new: true })
+  User.findOneAndUpdate({ _id }, { $set: { image: image } }, { new: true })
     .then((data) => {
       res.json({ image: data.image });
     })

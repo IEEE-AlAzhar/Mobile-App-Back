@@ -44,13 +44,13 @@ app.get("/users", getUsers(User));
 app.get("/user", verifyToken(jwt, config), getUser(User));
 app.post("/users/create", createUser(User));
 app.post("/user/login", login(User, jwt, config));
-app.put("/user/:id/image", verifyToken(jwt, config), changeUserImage(User));
-app.put("/user/:id/phone", verifyToken(jwt, config), changeUserPhone(User));
-// app.post("/announcements/add", addAnnouncement(Announcement));
-// app.get("/announcements", getAnnouncements(Announcement));
-// app.delete("/reset", (req, res) =>
-//   User.deleteMany({}).then(res.json("Success"))
-// );
+app.put("/user/:_id/image", verifyToken(jwt, config), changeUserImage(User));
+app.put("/user/:_id/phone", verifyToken(jwt, config), changeUserPhone(User));
+app.post("/announcements/add", addAnnouncement(Announcement));
+app.get("/announcements", getAnnouncements(Announcement));
+app.delete("/reset", (req, res) =>
+  User.deleteMany({}).then(res.json("Success"))
+);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "public")));
