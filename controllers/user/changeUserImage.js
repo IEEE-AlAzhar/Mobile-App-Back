@@ -7,7 +7,7 @@ const changeUserImage = (User) => (req, res) => {
     })
     .catch((err) => {
       res.status(400).json({
-        msg: "An error occurred, please try again later!kkk",
+        msg: "An error occurred, please try again later!",
         error: err,
       });
     });
