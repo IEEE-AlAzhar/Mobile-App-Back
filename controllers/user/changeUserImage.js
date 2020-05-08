@@ -6,6 +6,11 @@ const changeUserImage = (User) => (req, res) => {
       res.json({ image: data.image });
     })
     .catch((err) => {
+      if (err.path === "_id") {
+        res.status(404).json({
+          msg: "User does not exist!",
+        });
+      }
       res.status(400).json({
         msg: "An error occurred, please try again later!",
         error: err,
