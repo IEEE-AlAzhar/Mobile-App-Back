@@ -6,7 +6,12 @@ const changeUserPhone = (User) => (req, res) => {
       res.json({ phone: data.phone });
     })
     .catch((err) => {
-      res.status(400).json({
+      if (err.path === "_id") {
+        res.status(404).json({
+          msg: "User does not exist!",
+        });
+      }
+      res.status(500).json({
         msg: "An error occurred, please try again later!",
         error: err,
       });
