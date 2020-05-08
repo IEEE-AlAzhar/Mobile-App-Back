@@ -1,4 +1,4 @@
 node_modules/
 .env
 
-front/node_modules
+dashboard/node_modules

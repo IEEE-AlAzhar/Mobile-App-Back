@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Is from "@flk/supportive-is";
+import { isEmail, isEmpty } from "./services/validation.service";
 
-export default class Input extends Component {
+export default class FormInput extends Component {
   state = {
-    validationMessage: null,
+    validationMessage: "",
   };
 
   // get all the input types to add attributes dynamically to the input
@@ -54,7 +54,7 @@ export default class Input extends Component {
   validateEmpty = (field) => {
     // validate required input
     // check if the input is not empty
-    if (this.isRequired() && Is.empty(field.value)) {
+    if (this.isRequired() && isEmpty(field.value)) {
       // he didn't access this body
       this.errorMessage = this.customMessage(
         "empty",
@@ -69,8 +69,8 @@ export default class Input extends Component {
     if (
       this.props.type === "email" &&
       this.state.validationMessage === null &&
-      !Is.empty(field.value) &&
-      !Is.email(field.value)
+      isEmpty(field.value) &&
+      !isEmail(field.value)
     ) {
       this.errorMessage = this.customMessage("email", "Invalid Email Address");
     }
@@ -80,7 +80,7 @@ export default class Input extends Component {
     let { length } = this.props;
 
     // check if the value equals the length specified
-    if (!Is.empty(field.value) && length && field.value.length !== length) {
+    if (!isEmpty(field.value) && length && field.value.length !== length) {
       this.errorMessage = this.customMessage(
         "lengthMessage",
         `This field should be ${length} in length`
@@ -166,29 +166,11 @@ export default class Input extends Component {
     }
   };
 
-  checkIntType = (field) => {
-    if (this.props.type === "int" && !Is.int(+field.value)) {
-      this.errorMessage = this.customMessage(
-        "intType",
-        `You should pass an integer number`
-      );
-    }
-  };
-
-  checkFloatType = (field) => {
-    if (this.props.type === "float" && !Is.float(+field.value)) {
-      this.errorMessage = this.customMessage(
-        "floatType",
-        `You should pass a float number`
-      );
-    }
-  };
-
   matchTextPattern = (field) => {
     let { type, regPattern } = this.props,
       pattern = new RegExp(`${regPattern}`, "g");
 
-    if (type === "text" && !pattern.test(field.value)) {
+    if (type === "text" && regPattern && !pattern.test(field.value)) {
       this.errorMessage = this.customMessage(
         "matchPattern",
         `The string should match pattern provided`
@@ -209,8 +191,6 @@ export default class Input extends Component {
         this.matchMinLength,
         this.matchMaxDate,
         this.matchMinDate,
-        this.checkIntType,
-        this.checkFloatType,
         this.matchTextPattern,
       ];
 
@@ -244,6 +224,7 @@ export default class Input extends Component {
       "minDate",
       "maxDate",
       "regPattern",
+      "options",
     ];
     return typeof prop !== "object" && !acceptableProps.includes(prop);
   };
@@ -270,12 +251,12 @@ export default class Input extends Component {
   };
 
   render() {
-    let { type, options, className, label, id } = this.props;
+    let { type, options, className, label, id, value } = this.props;
 
     return (
       <section className="input-wrapper">
         {this.state.validationMessage !== null && (
-          <span className={`error ${this.errorPosition()}`}>
+          <span className={`error ${this.errorPosition()} text-red`}>
             {this.state.validationMessage}
           </span>
         )}
@@ -284,6 +265,9 @@ export default class Input extends Component {
 
         {type === "select" ? (
           <select {...this.getAcceptedProps()}>
+            <option value="" disabled>
+              Choose {label}
+            </option>
             {options &&
               options.map((option, idx) => (
                 <option value={option} key={idx}>
@@ -308,6 +292,7 @@ export default class Input extends Component {
             }
             className={`form-control ${className}`}
             onInput={this.validateField}
+            value={value || ""}
           />
         )}
       </section>

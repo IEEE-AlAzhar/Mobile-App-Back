@@ -1,0 +1,17 @@
+.profile__header {
+  flex-direction: column;
+}
+
+.profile__content {
+  border-top: 1px solid #ccc;
+}
+
+.profile__controls .btn {
+  background-color: #ccc;
+  border: 1px solid #ccc;
+}
+
+.profile__controls .btn.btn-active {
+  background-color: #fff;
+  border-bottom: none;
+}

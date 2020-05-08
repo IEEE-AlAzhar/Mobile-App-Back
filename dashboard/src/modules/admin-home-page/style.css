@@ -2,6 +2,20 @@
   min-height: 100%;
   position: absolute;
   width: 100%;
-  left: 10%;
   top: 0;
+  flex-direction: column;
+}
+
+.admin-home__header {
+  width: 100%;
+}
+
+.admin-home__main {
+  padding-left: 4rem;
+}
+
+.admin-home .card {
+  max-width: 50%;
+  border-radius: 10px;
+  box-shadow: 4px 3px 3px 0px #333;
 }
