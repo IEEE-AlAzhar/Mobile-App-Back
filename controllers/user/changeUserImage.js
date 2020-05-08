@@ -1,23 +1,16 @@
 const changeUserImage = (User) => (req, res) => {
-  const { code } = req.params;
+  const { id } = req.params;
   const { image } = req.body;
-  User.findOneAndUpdate(
-    { "user.code": code },
-    { $set: { "user.image": image } },
-    { new: true }
-  )
+  User.findOneAndUpdate({ _id: id }, { $set: { image: image } }, { new: true })
     .then((data) => {
-      if (data) {
-        res.json({ image: data.user.image });
-      } else {
-        res.status(404).json({
-          msg: "User does not exist!",
-        });
-      }
+      res.json({ image: data.image });
     })
-    .catch((err) =>
-      res.status(500).json("An error occurred, please try again later!")
-    );
+    .catch((err) => {
+      res.status(400).json({
+        msg: "An error occurred, please try again later!kkk",
+        error: err,
+      });
+    });
 };
 
 module.exports = changeUserImage;

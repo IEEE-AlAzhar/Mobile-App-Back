@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 
@@ -11,9 +11,10 @@ const User = require("./models/User.model");
 const Announcement = require("./models/Announcement.model");
 
 // require controllers
+const verifyToken = require("./controllers/verifyToken");
 const getUsers = require("./controllers/user/getUsers");
 const getUser = require("./controllers/user/getUser");
-const addUser = require("./controllers/user/addUser");
+const createUser = require("./controllers/user/createUser");
 const login = require("./controllers/user/login");
 const changeUserImage = require("./controllers/user/changeUserImage");
 const changeUserPhone = require("./controllers/user/changeUserPhone");
@@ -40,16 +41,16 @@ app.use(cors());
 // end-points
 app.get("/", (req, res) => res.json("root is working!"));
 app.get("/users", getUsers(User));
-app.get("/user", getUser(jwt, config));
-app.post("/users/add", addUser(User, jwt, config));
-app.post("/user/login", login(User));
-app.put("/user/:code/image", changeUserImage(User));
-app.put("/user/:code/phone", changeUserPhone(User));
-app.post("/announcements/add", addAnnouncement(Announcement));
-app.get("/announcements", getAnnouncements(Announcement));
-app.delete("/reset", (req, res) =>
-  User.deleteMany({}).then(res.json("Success"))
-);
+app.get("/user", verifyToken(jwt, config), getUser(User));
+app.post("/users/create", createUser(User));
+app.post("/user/login", login(User, jwt, config));
+app.put("/user/:id/image", verifyToken(jwt, config), changeUserImage(User));
+// app.put("/user/:code/phone", changeUserPhone(User));
+// app.post("/announcements/add", addAnnouncement(Announcement));
+// app.get("/announcements", getAnnouncements(Announcement));
+// app.delete("/reset", (req, res) =>
+//   User.deleteMany({}).then(res.json("Success"))
+// );
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "public")));
