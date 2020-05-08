@@ -9,7 +9,6 @@ const verifyToken = (jwt, config) => (req, res, next) => {
         .status(500)
         .json({ auth: false, message: "Failed to authenticate token." });
 
-    req.userId = decoded.id;
     next();
   });
 };

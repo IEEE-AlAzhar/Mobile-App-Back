@@ -6,23 +6,23 @@ const jwt = require("jsonwebtoken");
 
 const app = express();
 
-// require Models
-const User = require("./models/User.model");
-const Announcement = require("./models/Announcement.model");
+// // require Models
+// const User = require("./models/User.model");
+// const Announcement = require("./models/Announcement.model");
 
-// require controllers
-const verifyToken = require("./controllers/verifyToken");
-const getUsers = require("./controllers/user/getUsers");
-const getUser = require("./controllers/user/getUser");
-const createUser = require("./controllers/user/createUser");
-const login = require("./controllers/user/login");
-const changeUserImage = require("./controllers/user/changeUserImage");
-const changeUserPhone = require("./controllers/user/changeUserPhone");
-const addAnnouncement = require("./controllers/announcement/addAnnouncement");
-const getAnnouncements = require("./controllers/announcement/getAnnouncements");
+// // require controllers
+// const verifyToken = require("./controllers/verifyToken");
+// const getUsers = require("./controllers/user/getUsers");
+// const getUser = require("./controllers/user/getUser");
+// const createUser = require("./controllers/user/createUser");
+// const login = require("./controllers/user/login");
+// const changeUserImage = require("./controllers/user/changeUserImage");
+// const changeUserPhone = require("./controllers/user/changeUserPhone");
+// const addAnnouncement = require("./controllers/announcement/addAnnouncement");
+// const getAnnouncements = require("./controllers/announcement/getAnnouncements");
 
 require("dotenv").config();
-const config = require("./config");
+// const config = require("./config");
 
 mongoose
   .connect("mongodb://localhost:27017/mobApp" || process.env.DB_URI, {

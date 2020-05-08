@@ -1,11 +1,14 @@
 const getUser = (User) => (req, res) => {
-  User.findById(req.userId, (err, user) => {
-    if (err)
-      return res.status(500).json("There was a problem finding the user.");
-    if (!user) return res.status(404).json("No user found.");
-
-    res.status(200).json(user);
-  });
+  const { _id } = req.params;
+  User.findById(_id)
+    .populate("achievements")
+    .populate("feedbacks")
+    .then((newUser) => {
+      res.json(newUser);
+    })
+    .catch(() => {
+      res.status(500).json({ msg: "User not found" });
+    });
 };
 
 module.exports = getUser;
