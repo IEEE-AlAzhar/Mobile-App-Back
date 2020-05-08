@@ -103,7 +103,7 @@ export default class UserForm extends Component<Prop, State> {
       },
       () => {
         this.props.onSubmit(this.state.user, true).then(() => {
-          // this.resetObj(user);
+          this.resetObj(user);
           this.setState({ user: user });
         });
       }
@@ -167,7 +167,7 @@ export default class UserForm extends Component<Prop, State> {
                   <FormInput
                     type="text"
                     required={true}
-                    placeholder="User name"
+                    placeholder="Member name"
                     label="Name"
                     id="name"
                     name="name"
@@ -200,6 +200,7 @@ export default class UserForm extends Component<Prop, State> {
                     required={true}
                     label="Phone"
                     id="phone"
+                    placeholder="e.g: 010123456734"
                     name="phone"
                     errorPosition="bottom"
                     value={user.phone}

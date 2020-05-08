@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { isEmail, isEmpty } from "./services/validation.service";
+import { isEmail, isEmpty } from "../services/validation.service";
+
+import "./style.css";
 
 export default class FormInput extends Component {
   state = {
@@ -264,7 +266,7 @@ export default class FormInput extends Component {
         {label && <label htmlFor={id}> {label} </label>}
 
         {type === "select" ? (
-          <select {...this.getAcceptedProps()}>
+          <select onChange={this.validateField} {...this.getAcceptedProps()}>
             <option value="" disabled>
               Choose {label}
             </option>

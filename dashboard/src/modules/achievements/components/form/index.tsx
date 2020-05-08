@@ -4,7 +4,7 @@ import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 
 import Loading from "shared/loading";
-import FormInput from "shared/Input";
+import FormInput from "shared/Input"
 import ImageInput from "shared/image-input";
 import { Achievement } from "globals/interfaces/achievement.interface";
 

@@ -10,7 +10,7 @@ export interface User {
   image: string;
   role: string;
   type: string;
-  committee: string;
+  committee?: string;
   feedbacks?: Feedback[];
   achievements?: Achievement[];
 }
