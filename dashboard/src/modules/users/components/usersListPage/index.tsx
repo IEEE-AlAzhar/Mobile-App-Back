@@ -91,7 +91,7 @@ export default class UsersListPage extends Component<Prop, State> {
       })
       .catch((err) => {
         this.setState({
-          errorAlert: "An error occurred",
+          errorAlert: err.response.data.msg,
           successAlert: "",
           isSubmitting: false,
         });

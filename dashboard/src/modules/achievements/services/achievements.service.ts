@@ -5,10 +5,10 @@ export let addAchievement = async (
   achievement: Achievement,
   userId: string
 ) => {
-  let { data: addedAchievement } = await axios.post(
-    `/api/users/${userId}/achievements/new`,
-    achievement
-  );
+  let {
+    data: addedAchievement,
+  } = await axios.post(`/api/users/${userId}/achievements/new`, 
+    achievement);
 
   return addedAchievement;
 };

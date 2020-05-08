@@ -1,39 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// Create feedback Schema
-const FeedbackSchema = new Schema({
-  title: {
-    type: String,
-    required: [true, "author is required!"],
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-  content: {
-    type: String,
-    required: [true, "content is required!"],
-  },
-});
-
-// Create achievement Schema
-const AchievementSchema = new Schema({
-  title: {
-    type: String,
-    required: [true, "title is required!"],
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-  description: {
-    type: String,
-    required: [true, "description is required!"],
-  },
-});
-
-// creating user schema
 const userSchema = new Schema({
   code: {
     type: String,
@@ -66,8 +33,18 @@ const userSchema = new Schema({
     type: String,
     required: [true, "user committee is required!"],
   },
-  feedbacks: [FeedbackSchema],
-  achievements: [AchievementSchema],
+  feedbacks: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Feedback",
+    },
+  ],
+  achievements: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Achievement",
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);
