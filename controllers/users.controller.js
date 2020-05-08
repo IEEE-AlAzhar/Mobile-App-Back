@@ -13,12 +13,13 @@ server.get("/list", async (req, res) => {
 });
 
 server.get("/:id", async (req, res) => {
-  try {
-    let user = await User.findById(req.params.id);
-    res.json(user);
-  } catch {
-    res.status(500).json({ msg: "An error occurred" });
-  }
+  User.findById(req.params.id)
+    .then((record) => {
+      res.json(record);
+    })
+    .catch(() => {
+      res.status(500).json({ msg: "User not found" });
+    });
 });
 
 server.post("/register", async (request, response) => {

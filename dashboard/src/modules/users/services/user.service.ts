@@ -26,3 +26,9 @@ export let getUsers = async () => {
 
   return users;
 };
+
+export let getSingleUser = async (id: string) => {
+  let { data: user } = await axios.get(`/api/users/${id}`);
+
+  return user;
+};

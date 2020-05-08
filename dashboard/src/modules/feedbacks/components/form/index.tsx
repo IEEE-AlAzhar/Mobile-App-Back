@@ -3,9 +3,9 @@ import React, { Component } from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 
-import { Committee } from "globals/interfaces/committee.interface";
 import Loading from "shared/loading";
 import FormInput from "shared/Input";
+import { Feedback } from "globals/interfaces/feedback.interface";
 
 interface Prop {
   isModalOpened: boolean;
@@ -16,14 +16,16 @@ interface Prop {
 }
 
 interface State {
-  committee: Committee;
+  feedback: Feedback;
   isLoading: boolean;
 }
 
-export default class CommitteeForm extends Component<Prop, State> {
+export default class FeedbackForm extends Component<Prop, State> {
   state = {
-    committee: {
-      name: "",
+    feedback: {
+      title: "",
+      body: "",
+      date: "",
     },
     isLoading: false,
   };
@@ -33,7 +35,7 @@ export default class CommitteeForm extends Component<Prop, State> {
 
     if (itemToBeEdited) {
       itemToBeEdited.date = this.formatDate();
-      this.setState({ committee: itemToBeEdited });
+      this.setState({ feedback: itemToBeEdited });
     }
   }
 
@@ -53,8 +55,8 @@ export default class CommitteeForm extends Component<Prop, State> {
     let { name, value } = e.currentTarget;
 
     this.setState({
-      committee: {
-        ...this.state.committee,
+      feedback: {
+        ...this.state.feedback,
         [name]: value,
       } as any,
     });
@@ -63,11 +65,22 @@ export default class CommitteeForm extends Component<Prop, State> {
   handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    let { committee } = this.state;
-    this.props.onSubmit(committee, true).then(() => {
-      this.resetObj(committee);
-      this.setState({ committee: committee });
-    });
+    let { feedback } = this.state;
+
+    this.setState(
+      {
+        feedback: {
+          ...feedback,
+          date: this.formatDate(),
+        } as any,
+      },
+      () => {
+        this.props.onSubmit(this.state.feedback, true).then(() => {
+          this.resetObj(feedback);
+          this.setState({ feedback: feedback });
+        });
+      }
+    );
   };
 
   resetObj(obj: any) {
@@ -83,7 +96,7 @@ export default class CommitteeForm extends Component<Prop, State> {
       closeModal,
       isSubmitting,
     } = this.props;
-    let { committee, isLoading } = this.state;
+    let { feedback, isLoading } = this.state;
 
     return (
       <Modal
@@ -102,23 +115,40 @@ export default class CommitteeForm extends Component<Prop, State> {
           <Loading />
         ) : (
           <>
-            <h3 className="mb-3"> Add new committee </h3>
+            <h3 className="mb-3"> Add new Feedback </h3>
             <form onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="form-group col-md-12">
                   <FormInput
                     type="text"
                     required={true}
-                    placeholder="Committee name"
-                    label="Name"
-                    id="name"
-                    name="name"
+                    placeholder="feedback title"
+                    label="Title"
+                    id="title"
+                    name="title"
                     errorPosition="bottom"
-                    value={committee.name}
+                    value={feedback.title}
                     onChange={this.handleChange}
                   />
                 </div>
               </div>
+
+              <div className="row">
+                <div className="form-group col-12">
+                  <FormInput
+                    type="textarea"
+                    required={true}
+                    label="body"
+                    id="body"
+                    name="body"
+                    rows="5"
+                    errorPosition="bottom"
+                    value={feedback.body}
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+
               <button
                 type="submit"
                 className="btn btn-primary"

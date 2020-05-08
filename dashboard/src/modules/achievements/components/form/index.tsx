@@ -3,9 +3,10 @@ import React, { Component } from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 
-import { Committee } from "globals/interfaces/committee.interface";
 import Loading from "shared/loading";
 import FormInput from "shared/Input";
+import ImageInput from "shared/image-input";
+import { Achievement } from "globals/interfaces/achievement.interface";
 
 interface Prop {
   isModalOpened: boolean;
@@ -16,16 +17,21 @@ interface Prop {
 }
 
 interface State {
-  committee: Committee;
+  achievement: Achievement;
   isLoading: boolean;
+  isImageUploading: boolean;
 }
 
-export default class CommitteeForm extends Component<Prop, State> {
+export default class AchievementForm extends Component<Prop, State> {
   state = {
-    committee: {
-      name: "",
+    achievement: {
+      title: "",
+      date: "",
+      description: "",
+      cover: ""
     },
     isLoading: false,
+    isImageUploading: false,
   };
 
   componentDidMount() {
@@ -33,9 +39,17 @@ export default class CommitteeForm extends Component<Prop, State> {
 
     if (itemToBeEdited) {
       itemToBeEdited.date = this.formatDate();
-      this.setState({ committee: itemToBeEdited });
+      this.setState({ achievement: itemToBeEdited });
     }
   }
+
+  setImageUpload = (status: boolean, imageUrl?: string) => {
+    this.setState({ isImageUploading: status });
+    if (imageUrl)
+      this.setState({
+        achievement: { ...this.state.achievement, cover: imageUrl } as any,
+      });
+  };
 
   formatDate = () => {
     let currentDateTime = new Date();
@@ -53,8 +67,8 @@ export default class CommitteeForm extends Component<Prop, State> {
     let { name, value } = e.currentTarget;
 
     this.setState({
-      committee: {
-        ...this.state.committee,
+      achievement: {
+        ...this.state.achievement,
         [name]: value,
       } as any,
     });
@@ -63,11 +77,22 @@ export default class CommitteeForm extends Component<Prop, State> {
   handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    let { committee } = this.state;
-    this.props.onSubmit(committee, true).then(() => {
-      this.resetObj(committee);
-      this.setState({ committee: committee });
-    });
+    let { achievement } = this.state;
+
+    this.setState(
+      {
+        achievement: {
+          ...achievement,
+          date: this.formatDate(),
+        } as any,
+      },
+      () => {
+        this.props.onSubmit(this.state.achievement, true).then(() => {
+          this.resetObj(achievement);
+          this.setState({ achievement: achievement });
+        });
+      }
+    );
   };
 
   resetObj(obj: any) {
@@ -83,7 +108,7 @@ export default class CommitteeForm extends Component<Prop, State> {
       closeModal,
       isSubmitting,
     } = this.props;
-    let { committee, isLoading } = this.state;
+    let { achievement, isLoading, isImageUploading } = this.state;
 
     return (
       <Modal
@@ -102,29 +127,53 @@ export default class CommitteeForm extends Component<Prop, State> {
           <Loading />
         ) : (
           <>
-            <h3 className="mb-3"> Add new committee </h3>
+            <h3 className="mb-3"> Add new Achievement </h3>
             <form onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="form-group col-md-12">
                   <FormInput
                     type="text"
                     required={true}
-                    placeholder="Committee name"
-                    label="Name"
-                    id="name"
-                    name="name"
+                    placeholder="achievement title"
+                    label="Title"
+                    id="title"
+                    name="title"
                     errorPosition="bottom"
-                    value={committee.name}
+                    value={achievement.title}
                     onChange={this.handleChange}
                   />
                 </div>
               </div>
+
+              <div className="row">
+                <div className="form-group col-12">
+                  <FormInput
+                    type="textarea"
+                    required={true}
+                    label="description"
+                    id="description"
+                    name="description"
+                    rows="5"
+                    errorPosition="bottom"
+                    value={achievement.description}
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+
+              <ImageInput
+                imgUrl={achievement.cover}
+                setImageUpload={this.setImageUpload}
+              />
+
               <button
                 type="submit"
                 className="btn btn-primary"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isImageUploading}
               >
-                {isSubmitting
+                {isImageUploading
+                  ? "Uploading..."
+                  : isSubmitting
                   ? "Loading ..."
                   : itemToBeEdited
                   ? "Save"

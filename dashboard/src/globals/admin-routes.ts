@@ -1,5 +1,6 @@
-import LoginPage from "modules/users/components/loginPage";
 import AdminHome from "modules/admin-home-page";
+import LoginPage from "modules/users/components/loginPage";
+import UserProfile from "modules/users/components/userProfile";
 import UsersListPage from "modules/users/components/usersListPage";
 import AnnouncementsListPage from "modules/announcements/components/page";
 import CommitteesListPage from "modules/users/components/committeesListPage";
@@ -20,6 +21,10 @@ export let adminRoutes: RouteStructure[] = [
     path: "/users",
     label: "Users",
     component: UsersListPage,
+  },
+  {
+    path: "/users/:id",
+    component: UserProfile,
   },
   {
     path: "/committees",
