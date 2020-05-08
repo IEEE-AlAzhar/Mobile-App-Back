@@ -1,5 +1,5 @@
 const deleteUser = (User) => (req, res) => {
-  let { _id } = req.params;
+  const { _id } = req.params;
 
   User.findByIdAndDelete(_id)
     .then(() => {

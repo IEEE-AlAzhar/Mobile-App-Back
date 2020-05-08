@@ -1,6 +1,6 @@
 const addAchievement = (User, Achievement) => (req, res) => {
   const { id } = req.params;
-  let { title, date, description, cover } = req.body;
+  const { title, date, description, cover } = req.body;
 
   Achievement.create({
     title,
