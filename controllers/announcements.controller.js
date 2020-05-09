@@ -1,68 +1,20 @@
 const express = require("express");
 const server = express.Router();
+const verifyToken = require("./verifyToken");
 
+// require models
 const Announcement = require("../models/Announcement.model");
 
-server.get("/list", async (req, res) => {
-  try {
-    let announcementsList = await Announcement.find({});
-    res.json(announcementsList);
-  } catch {
-    res.status(500).json({ msg: "An error occurred" });
-  }
-});
+// require controllers
+const getAnnouncements = require("./announcement/getAnnouncements");
+const addAnnouncement = require("./announcement/addAnnouncement");
+const editAnnouncement = require("./announcement/editAnnouncement");
+const deleteAnnouncement = require("./announcement/deleteAnnouncement");
 
-server.post("/new", async (req, res) => {
-  let { title, body, cover, date, type } = req.body;
-
-  let AnnouncementItem = new Announcement({
-    title,
-    body,
-    date,
-    cover,
-    date,
-    type,
-  });
-
-  AnnouncementItem.save()
-    .then((record) => {
-      res.json(record);
-    })
-    .catch(() => {
-      res.status(400).json({ msg: "An error occurred" });
-    });
-});
-
-// Edit the record
-server.put("/:id", (req, res) => {
-  try {
-    let id = req.params.id;
-
-    let { title, body, cover, date, type } = req.body;
-
-    Announcement.findByIdAndUpdate(
-      id,
-      { title, body, cover, date, type },
-      { new: true }
-    ).then((record) => {
-      res.json(record);
-    });
-  } catch {
-    res.json({ msg: "An error occurred" });
-  }
-});
-
-// Delete the record
-server.delete("/:id", (req, res) => {
-  let id = req.params.id;
-
-  Announcement.findByIdAndRemove(id)
-    .then(() => {
-      res.sendStatus(200);
-    })
-    .catch(() => {
-      res.json({ msg: "An error occurred" });
-    });
-});
+// Announcement end-points
+server.get("/list", verifyToken(), getAnnouncements(Announcement));
+server.post("/create", verifyToken(), addAnnouncement(Announcement));
+server.put("/:id", verifyToken(), editAnnouncement(Announcement));
+server.delete("/:id", verifyToken(), deleteAnnouncement(Announcement));
 
 module.exports = server;

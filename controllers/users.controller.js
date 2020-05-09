@@ -1,225 +1,56 @@
 const express = require("express");
 const server = express.Router();
+const verifyToken = require("./verifyToken");
 
+// require models
 const User = require("../models/User.model");
 const Achievement = require("../models/Achievement.model");
 const Feedback = require("../models/Feedback.model");
 
-server.get("/list", async (req, res) => {
-  try {
-    let usersList = await User.find({});
-    res.json(usersList);
-  } catch {
-    res.status(500).json({ msg: "An error occurred" });
-  }
-});
+// require controllers
+const getUsers = require("./user/getUsers");
+const createUser = require("./user/createUser");
+const login = require("./user/login");
+const getUser = require("./user/getUser");
+const changeUserImage = require("./user/changeUserImage");
+const changeUserPhone = require("./user/changeUserPhone");
+const deleteUser = require("./user/deleteUser");
+const addAchievement = require("./user/addAchievement");
+const editAchievement = require("./user/editAchievement");
+const deleteAchievement = require("./user/deleteAchievement");
+const addFeedback = require("./user/addFeedback");
+const editFeedback = require("./user/editFeedback");
+const deleteFeedback = require("./user/deleteFeedback");
 
-server.get("/:id", async (req, res) => {
-  User.findById(req.params.id)
-    .populate("achievements")
-    .populate("feedbacks")
-    .then((record) => {
-      res.json(record);
-    })
-    .catch(() => {
-      res.status(500).json({ msg: "User not found" });
-    });
-});
-
-server.post("/register", async (request, response) => {
-  let { code, name, email, phone, image, role, type, committee } = request.body;
-
-  User.find({ email }).then((usr, err) => {
-    if (usr && usr.length > 0) {
-      return response.status(400).json({ msg: "User already exists" });
-    } else {
-      User.create({
-        code,
-        name,
-        email,
-        phone,
-        image,
-        role,
-        type,
-        committee,
-      })
-        .then((record) => {
-          response.json(record);
-        })
-        .catch((err) => {
-          console.log(err.message);
-          response.status(500).json({
-            msg: "An error occurred",
-          });
-        });
-    }
-  });
-});
-
-server.put("/:id/phone", (req, res) => {
-  const { id } = req.params;
-  const { phone } = req.body;
-  User.findByIdAndUpdate(id, { $set: { phone: phone } }, { new: true })
-    .then((data) => {
-      if (data) {
-        res.json({ phone: data.user.phone });
-      } else {
-        res.status(404).json({
-          msg: "User does not exist!",
-        });
-      }
-    })
-    .catch((err) =>
-      res.status(500).json("An error occurred, please try again later!")
-    );
-});
-
-server.put("/:id/image", (req, res) => {
-  const { id } = req.params;
-  const { image } = req.body;
-  User.findByIdAndUpdate(id, { $set: { image: image } }, { new: true })
-    .then((data) => {
-      if (data) {
-        res.json({ image: data.user.image });
-      } else {
-        res.status(404).json({
-          msg: "User does not exist!",
-        });
-      }
-    })
-    .catch((err) =>
-      res.status(500).json("An error occurred, please try again later!")
-    );
-});
-
-server.delete("/:id", (request, response) => {
-  let id = request.params.id;
-
-  User.findByIdAndDelete(id).then(() => {
-    response.sendStatus(200);
-  });
-});
-
-server.post("/:id/achievements/new", (req, res) => {
-  const { id } = req.params;
-  let { title, date, description, cover } = req.body;
-
-  Achievement.create({ title, date, description, cover }).then(
-    (achievement) => {
-      User.findByIdAndUpdate(
-        id,
-        { $push: { achievements: achievement._id } },
-        { new: true }
-      )
-        .then((data) => {
-          if (data) {
-            res.json(achievement);
-          } else {
-            res.status(404).json({
-              msg: "User does not exist!",
-            });
-          }
-        })
-        .catch((err) =>
-          res.status(500).json("An error occurred, please try again later!")
-        );
-    }
-  );
-});
-
-server.put("/:id/achievements/:achievementId", (req, res) => {
-  const { achievementId } = req.params;
-  let { title, date, description, cover } = req.body;
-
-  Achievement.findByIdAndUpdate(
-    achievementId,
-    { title, date, description, cover },
-    { new: true }
-  )
-    .then((achievement) => {
-      res.json(achievement);
-    })
-    .catch(() => {
-      res.json({ msg: "An error occurred" });
-    });
-});
-
-server.delete("/:id/achievements/:achievementId", (req, res) => {
-  const { achievementId, id } = req.params;
-
-  Achievement.findByIdAndRemove(achievementId)
-    .then(() => {
-      User.findByIdAndUpdate(id, {
-        $pull: { achievements: achievementId }
-      }).then(() => {
-        res.sendStatus(200);
-      });
-    })
-    .catch((err) => {
-      res.status(400).json({ msg: "An error occurred" });
-    });
-});
-
-
-server.post("/:id/feedbacks/new", (req, res) => {
-  const { id } = req.params;
-  let { title, date, body } = req.body;
-
-  Feedback.create({ title, date, body }).then(
-    (feedback) => {
-      User.findByIdAndUpdate(
-        id,
-        { $push: { feedbacks: feedback._id } },
-        { new: true }
-      )
-        .then((data) => {
-          if (data) {
-            res.json(feedback);
-          } else {
-            res.status(404).json({
-              msg: "User does not exist!",
-            });
-          }
-        })
-        .catch((err) =>
-          res.status(500).json("An error occurred, please try again later!")
-        );
-    }
-  );
-});
-
-server.put("/:id/feedbacks/:feedbackId", (req, res) => {
-  const { feedbackId } = req.params;
-  let { title, date, body } = req.body;
-
-  Feedback.findByIdAndUpdate(
-    feedbackId,
-    { title, date, body },
-    { new: true }
-  )
-    .then((feedback) => {
-      res.json(feedback);
-    })
-    .catch(() => {
-      res.json({ msg: "An error occurred" });
-    });
-});
-
-server.delete("/:id/feedbacks/:feedbackId", (req, res) => {
-  const { feedbackId, id } = req.params;
-
-  Feedback.findByIdAndRemove(feedbackId)
-    .then(() => {
-      User.findByIdAndUpdate(id, {
-        $pull: { feedbacks: feedbackId }
-      }).then(() => {
-        res.sendStatus(200);
-      });
-    })
-    .catch((err) => {
-      res.status(400).json({ msg: "An error occurred" });
-    });
-});
-
+// user end-points
+server.get("/list", verifyToken(), getUsers(User));
+server.get("/:_id", verifyToken(), getUser(User));
+server.post("/create", verifyToken(), createUser(User));
+server.put("/:_id/image", verifyToken(), changeUserImage(User));
+server.put("/:_id/phone", verifyToken(), changeUserPhone(User));
+server.post("/login", login(User));
+server.delete("/:_id", verifyToken(), deleteUser(User));
+server.post(
+  "/:id/achievements/new",
+  verifyToken(),
+  addAchievement(User, Achievement)
+);
+server.put(
+  "/achievements/:achievementId",
+  verifyToken(),
+  editAchievement(Achievement)
+);
+server.delete(
+  "/:id/achievements/:achievementId",
+  verifyToken(),
+  deleteAchievement(Achievement, User)
+);
+server.post("/:id/feedbacks/new", verifyToken(), addFeedback(User, Feedback));
+server.put("/:id/feedbacks/:feedbackId", verifyToken(), editFeedback(Feedback));
+server.delete(
+  "/:id/feedbacks/:feedbackId",
+  verifyToken(),
+  deleteFeedback(Feedback, User)
+);
 
 module.exports = server;
