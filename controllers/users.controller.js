@@ -24,41 +24,29 @@ const deleteFeedback = require("./user/deleteFeedback");
 
 // user end-points
 server.get("/list", verifyToken(), getUsers(User));
-
 server.get("/:_id", verifyToken(), getUser(User));
-
 server.post("/create", verifyToken(), createUser(User));
-
 server.put("/:_id/image", verifyToken(), changeUserImage(User));
-
 server.put("/:_id/phone", verifyToken(), changeUserPhone(User));
-
 server.post("/login", login(User));
-
 server.delete("/:_id", verifyToken(), deleteUser(User));
-
 server.post(
   "/:id/achievements/new",
   verifyToken(),
   addAchievement(User, Achievement)
 );
-
 server.put(
   "/achievements/:achievementId",
   verifyToken(),
   editAchievement(Achievement)
 );
-
 server.delete(
   "/:id/achievements/:achievementId",
   verifyToken(),
   deleteAchievement(Achievement, User)
 );
-
 server.post("/:id/feedbacks/new", verifyToken(), addFeedback(User, Feedback));
-
 server.put("/:id/feedbacks/:feedbackId", verifyToken(), editFeedback(Feedback));
-
 server.delete(
   "/:id/feedbacks/:feedbackId",
   verifyToken(),
