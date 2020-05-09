@@ -35,7 +35,8 @@ class UserService extends CoreService {
         if (user) {
           const token = jwt.sign({ id: user._id }, config.secret);
 
-          res.json({ auth: true, token: token, userData: user });
+          req.user = user;
+          res.json({ auth: true, token: token, user });
         } else {
           res.status(404).json({ msg: `${this.name} does not exist!` });
         }
@@ -46,6 +47,34 @@ class UserService extends CoreService {
           error: err,
         })
       );
+  }
+
+  logout(req, res) {
+    req.user = null;
+    res.json({ success: true });
+  }
+
+  listRecords(req, res) {
+    let { type, committee } = req.user;
+    if (type === "Admin") {
+      this.db
+        .find({})
+        .then((records) => res.json(records))
+        .catch(() =>
+          res.status(500).json({
+            msg: "An error occurred, please try again later!",
+          })
+        );
+    } else {
+      this.db
+        .find({ committee })
+        .then((records) => res.json(records))
+        .catch(() =>
+          res.status(500).json({
+            msg: "An error occurred, please try again later!",
+          })
+        );
+    }
   }
 
   changeImage(req, res) {

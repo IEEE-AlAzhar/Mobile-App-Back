@@ -11,6 +11,7 @@ let achievementService = new AchievementService();
 let feedbackService = new FeedbackService();
 
 server.post("/login", userService.login);
+server.post("/logout", verifyToken(), userService.logout);
 server.get("/list", verifyToken(), userService.listRecords);
 server.get("/:id/me", verifyToken(), userService.getUserById);
 server.post("/new", verifyToken(), userService.createRecord);
