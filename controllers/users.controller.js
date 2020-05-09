@@ -1,5 +1,6 @@
 const express = require("express");
 const server = express.Router();
+const verifyToken = require("./verifyToken");
 
 // require models
 const User = require("../models/User.model");
@@ -7,7 +8,6 @@ const Achievement = require("../models/Achievement.model");
 const Feedback = require("../models/Feedback.model");
 
 // require controllers
-const verifyToken = require("./verifyToken");
 const getUsers = require("./user/getUsers");
 const createUser = require("./user/createUser");
 const login = require("./user/login");

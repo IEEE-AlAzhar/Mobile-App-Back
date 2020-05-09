@@ -1,13 +1,18 @@
 const addAnnouncement = (Announcement) => (req, res) => {
-  const { title, body, type, cover } = req.body;
+  const { title, body, type, cover, date } = req.body;
   Announcement.create({
     title,
     body,
     type,
     cover,
+    date,
   })
     .then((newAnnouncement) => res.json(newAnnouncement))
-    .catch((err) => res.status(400).json(err));
+    .catch(() =>
+      res.status(500).json({
+        msg: "An error occurred, please try again later!",
+      })
+    );
 };
 
 module.exports = addAnnouncement;
