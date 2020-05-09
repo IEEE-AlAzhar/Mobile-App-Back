@@ -7,8 +7,9 @@ class UserService extends CoreService {
   constructor() {
     super();
     this.initialize(User, "User");
-    this.getUserById = this.getUserById.bind(this);
     this.login = this.login.bind(this);
+    this.listRecords = this.listRecords.bind(this);
+    this.getUserById = this.getUserById.bind(this);
     this.changeImage = this.changeImage.bind(this);
     this.changePhone = this.changePhone.bind(this);
   }
