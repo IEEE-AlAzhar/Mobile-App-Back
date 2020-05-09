@@ -2,19 +2,12 @@ const express = require("express");
 const server = express.Router();
 const verifyToken = require("../helpers/verifyToken");
 
-// require models
-const Announcement = require("../models/Announcement.model");
+const AnnouncementService = require("../services/announcement/announcement.service.js");
+let announcementService = new AnnouncementService();
 
-// require controllers
-const getAnnouncements = require("../services/announcement/getAnnouncements");
-const addAnnouncement = require("../services/announcement/addAnnouncement");
-const editAnnouncement = require("../services/announcement/editAnnouncement");
-const deleteAnnouncement = require("../services/announcement/deleteAnnouncement");
-
-// Announcement end-points
-server.get("/list", verifyToken(), getAnnouncements(Announcement));
-server.post("/new", verifyToken(), addAnnouncement(Announcement));
-server.put("/:id", verifyToken(), editAnnouncement(Announcement));
-server.delete("/:id", verifyToken(), deleteAnnouncement(Announcement));
+server.get("/list", verifyToken(), announcementService.listRecords);
+server.post("/new", verifyToken(), announcementService.createRecord);
+server.put("/:id", verifyToken(), announcementService.updateRecord);
+server.delete("/:id", verifyToken(), announcementService.deleteRecord);
 
 module.exports = server;

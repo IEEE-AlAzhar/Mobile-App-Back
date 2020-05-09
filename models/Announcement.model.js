@@ -12,8 +12,7 @@ const announcementSchema = new Schema({
     required: [true, "Announcement body is required!"],
   },
   date: {
-    type: Date,
-    default: Date.now,
+    type: Date
   },
   type: {
     type: String,

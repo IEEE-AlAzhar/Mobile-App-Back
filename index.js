@@ -24,7 +24,7 @@ app.use(cors());
 const userController = require("./controllers/users.controller");
 app.use("/api/users", userController);
 
-const announcementController = require("./controllers/announcements.controller");
+const announcementController = require("./controllers/announcements.controller.js");
 app.use("/api/announcements", announcementController);
 
 const committeeController = require("./controllers/committees.controller");
