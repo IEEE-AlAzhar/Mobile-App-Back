@@ -8,7 +8,7 @@ const app = express();
 require("dotenv").config();
 
 mongoose
-  .connect("mongodb://localhost:27017/mobApp" || process.env.DB_URI, {
+  .connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,

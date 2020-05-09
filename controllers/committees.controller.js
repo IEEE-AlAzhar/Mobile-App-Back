@@ -11,7 +11,7 @@ const addCommittee = require("./committee/addCommittee");
 const editCommittee = require("./committee/editCommittee");
 const deleteCommittee = require("./committee/deleteCommittee");
 
-// Announcement end-points
+// committees end-points
 server.get("/list", verifyToken(), getCommittees(Committee));
 server.post("/add", verifyToken(), addCommittee(Committee));
 server.put("/:id", verifyToken(), editCommittee(Committee));
