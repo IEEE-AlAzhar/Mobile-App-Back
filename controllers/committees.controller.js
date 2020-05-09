@@ -1,19 +1,19 @@
 const express = require("express");
 const server = express.Router();
-const verifyToken = require("./verifyToken");
+const verifyToken = require("../helpers/verifyToken");
 
 // require models
 const Committee = require("../models/Committee.model");
 
 // require controllers
-const getCommittees = require("./committee/getCommittees");
-const addCommittee = require("./committee/addCommittee");
-const editCommittee = require("./committee/editCommittee");
-const deleteCommittee = require("./committee/deleteCommittee");
+const getCommittees = require("../services/committee/getCommittees");
+const addCommittee = require("../services/committee/addCommittee");
+const editCommittee = require("../services/committee/editCommittee");
+const deleteCommittee = require("../services/committee/deleteCommittee");
 
 // committees end-points
 server.get("/list", verifyToken(), getCommittees(Committee));
-server.post("/add", verifyToken(), addCommittee(Committee));
+server.post("/new", verifyToken(), addCommittee(Committee));
 server.put("/:id", verifyToken(), editCommittee(Committee));
 server.delete("/:id", verifyToken(), deleteCommittee(Committee));
 

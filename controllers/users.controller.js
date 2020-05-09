@@ -1,6 +1,6 @@
 const express = require("express");
 const server = express.Router();
-const verifyToken = require("./verifyToken");
+const verifyToken = require("../helpers/verifyToken");
 
 // require models
 const User = require("../models/User.model");
@@ -8,19 +8,19 @@ const Achievement = require("../models/Achievement.model");
 const Feedback = require("../models/Feedback.model");
 
 // require controllers
-const getUsers = require("./user/getUsers");
-const createUser = require("./user/createUser");
-const login = require("./user/login");
-const getUser = require("./user/getUser");
-const changeUserImage = require("./user/changeUserImage");
-const changeUserPhone = require("./user/changeUserPhone");
-const deleteUser = require("./user/deleteUser");
-const addAchievement = require("./user/addAchievement");
-const editAchievement = require("./user/editAchievement");
-const deleteAchievement = require("./user/deleteAchievement");
-const addFeedback = require("./user/addFeedback");
-const editFeedback = require("./user/editFeedback");
-const deleteFeedback = require("./user/deleteFeedback");
+const getUsers = require("../services/user/getUsers");
+const createUser = require("../services/user/createUser");
+const login = require("../services/user/login");
+const getUser = require("../services/user/getUser");
+const changeUserImage = require("../services/user/changeUserImage");
+const changeUserPhone = require("../services/user/changeUserPhone");
+const deleteUser = require("../services/user/deleteUser");
+const addAchievement = require("../services/user/addAchievement");
+const editAchievement = require("../services/user/editAchievement");
+const deleteAchievement = require("../services/user/deleteAchievement");
+const addFeedback = require("../services/user/addFeedback");
+const editFeedback = require("../services/user/editFeedback");
+const deleteFeedback = require("../services/user/deleteFeedback");
 
 // user end-points
 server.get("/list", verifyToken(), getUsers(User));
