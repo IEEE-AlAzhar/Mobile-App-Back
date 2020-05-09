@@ -2,27 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
-const jwt = require("jsonwebtoken");
 
 const app = express();
 
-// // require Models
-// const User = require("./models/User.model");
-// const Announcement = require("./models/Announcement.model");
-
-// // require controllers
-// const verifyToken = require("./controllers/verifyToken");
-// const getUsers = require("./controllers/user/getUsers");
-// const getUser = require("./controllers/user/getUser");
-// const createUser = require("./controllers/user/createUser");
-// const login = require("./controllers/user/login");
-// const changeUserImage = require("./controllers/user/changeUserImage");
-// const changeUserPhone = require("./controllers/user/changeUserPhone");
-// const addAnnouncement = require("./controllers/announcement/addAnnouncement");
-// const getAnnouncements = require("./controllers/announcement/getAnnouncements");
-
 require("dotenv").config();
-// const config = require("./config");
 
 mongoose
   .connect("mongodb://localhost:27017/mobApp" || process.env.DB_URI, {
@@ -38,21 +21,6 @@ mongoose
 app.use(express.json());
 app.use(cors());
 
-// <<<<<<< HEAD
-// end-points
-// app.get("/", (req, res) => res.json("root is working!"));
-// app.get("/users", getUsers(User));
-// app.get("/user", verifyToken(jwt, config), getUser(User));
-// app.post("/users/create", createUser(User));
-// app.post("/user/login", login(User, jwt, config));
-// app.put("/user/:_id/image", verifyToken(jwt, config), changeUserImage(User));
-// app.put("/user/:_id/phone", verifyToken(jwt, config), changeUserPhone(User));
-// app.post("/announcements/add", addAnnouncement(Announcement));
-// app.get("/announcements", getAnnouncements(Announcement));
-// app.delete("/reset", (req, res) =>
-//   User.deleteMany({}).then(res.json("Success"))
-// );
-// =======
 const userController = require("./controllers/users.controller");
 app.use("/api/users", userController);
 
@@ -61,7 +29,6 @@ app.use("/api/announcements", announcementController);
 
 const committeeController = require("./controllers/committees.controller");
 app.use("/api/committees", committeeController);
-// >>>>>>> b71129e7f1727949b90ea82dacbae40d744fe4b4
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "public")));
