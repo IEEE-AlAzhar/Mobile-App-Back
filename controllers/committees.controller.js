@@ -1,64 +1,20 @@
 const express = require("express");
 const server = express.Router();
+const verifyToken = require("../helpers/verifyToken");
 
+// require models
 const Committee = require("../models/Committee.model");
 
-server.get("/list", async (req, res) => {
-  try {
-    let committeesList = await Committee.find({});
-    res.json(committeesList);
-  } catch {
-    res.status(500).json({ msg: "An error occurred" });
-  }
-});
+// require controllers
+const getCommittees = require("../services/committee/getCommittees");
+const addCommittee = require("../services/committee/addCommittee");
+const editCommittee = require("../services/committee/editCommittee");
+const deleteCommittee = require("../services/committee/deleteCommittee");
 
-server.post("/new", async (req, res) => {
-  let { name } = req.body;
-
-  let committeeItem = new Committee({
-    name,
-  });
-
-  committeeItem
-    .save()
-    .then((record) => {
-      res.json(record);
-    })
-    .catch(() => {
-      res.status(400).json({ msg: "An error occurred" });
-    });
-});
-
-// Edit the record
-server.put("/:id", (req, res) => {
-  try {
-    let id = req.params.id;
-
-    let { name } = req.body;
-
-    Committee.findByIdAndUpdate(
-      id,
-      { name },
-      { new: true }
-    ).then((record) => {
-      res.json(record);
-    });
-  } catch {
-    res.json({ msg: "An error occurred" });
-  }
-});
-
-// Delete the record
-server.delete("/:id", (req, res) => {
-  let id = req.params.id;
-
-  Committee.findByIdAndRemove(id)
-    .then(() => {
-      res.sendStatus(200);
-    })
-    .catch(() => {
-      res.json({ msg: "An error occurred" });
-    });
-});
+// committees end-points
+server.get("/list", verifyToken(), getCommittees(Committee));
+server.post("/new", verifyToken(), addCommittee(Committee));
+server.put("/:id", verifyToken(), editCommittee(Committee));
+server.delete("/:id", verifyToken(), deleteCommittee(Committee));
 
 module.exports = server;

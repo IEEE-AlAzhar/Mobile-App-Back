@@ -1,10 +1,11 @@
 ## Dashboard API
 
-### Login
 
-#### post Request
+### LOGIN
 
-**Request:** `/login`
+#### POST Request
+
+**Request:** `/user/login`
 
 ```json
 {
@@ -21,6 +22,7 @@
   "token": "averylongtoken34957345sfdghkl",
   "user": {
     "_id": "1000",
+    "code": "adlkjsadlkjaslkd",
     "name": "username",
     "phone": 0100000000,
     "image": "https://via.placeholder.com/500?text=image+1",
@@ -29,13 +31,13 @@
     "committee": "web",
     "feedbacks": [
       {
-        "id": "1",
+        "_id": "2",
         "title": "feedback 1",
         "date": "26-4-2020",
         "body": "Fake feedback"
       },
       {
-        "id": "2",
+        "_id": "1",
         "title": "feedback 2",
         "date": "26-5-2020",
         "body": "Fake feedback"
@@ -43,13 +45,13 @@
     ],
     "achievements": [
       {
-        "id": "1",
+        "_id": "2",
         "title": "title 1",
         "date": "26-5-2020",
         "description": "Lorem ipsum"
       },
       {
-        "id": "2",
+        "_id": "1",
         "title": "title 2",
         "date": "26-5-2020",
         "description": "Lorem ipsum"
@@ -59,13 +61,22 @@
 }
 ```
 
-- **401:**
+- **404:**
 
 ```json
 {
-  "msg": "user not found, please try again with a valid code!"
+  "msg": "User does not exist!"
 }
 ```
+
+- **500:**
+
+```json
+{
+  "msg": "An error occurred, please try again later!"
+}
+```
+
 
 ### Create a User
 
@@ -120,6 +131,7 @@
 }
 ```
 
+
 ### Get users
 
 - If `Admin` --> Return all users.
@@ -136,7 +148,8 @@
 ```json
 [
   {
-    "_id": "1000",
+    "code": "1000",
+    "_id": "kljlksajdlksadhjsakjdh",
     "name": "username",
     "phone": 0100000000,
     "image": "https://via.placeholder.com/500?text=image+1",
@@ -173,7 +186,8 @@
     ]
   },
   {
-    "_id": "1000",
+    "code": "1000",
+    "_id": "lkajsdkljsadksajd",
     "name": "username",
     "phone": 0100000000,
     "image": "https://via.placeholder.com/500?text=image+1",
@@ -220,6 +234,7 @@
 }
 ```
 
+
 ### Delete user
 
 - If `Admin` --> Return all users.
@@ -227,7 +242,7 @@
 
 #### delete Request
 
-**Request:** `/users/:id`
+**Request:** `/users/:code`
 
 **Response:**
 
@@ -255,11 +270,12 @@
 }
 ```
 
+
 ### Edit User
 
 #### put Request
 
-**Request:** `/users/:id`
+**Request:** `/users/:code`
 
 ```json
 {
@@ -292,11 +308,12 @@
 }
 ```
 
+
 ### Delete User
 
 #### delete Request
 
-**Request:** `/users/:id`
+**Request:** `/users/:code`
 
 **Response:**
 
@@ -316,11 +333,12 @@
 }
 ```
 
+
 ### Add feedback
 
 #### post Request
 
-**Request:** `/users/:id/feedback`
+**Request:** `/users/:code/feedback`
 
 ```json
 {
@@ -350,12 +368,13 @@
   "msg": "An error occurred, please try again!"
 }
 ```
+
 
 ### Edit feedback
 
 #### put Request
 
-**Request:** `/users/:id/feedback/:feedbackId`
+**Request:** `/users/:code/feedback/:feedbackId`
 
 ```json
 {
@@ -385,12 +404,13 @@
   "msg": "An error occurred, please try again!"
 }
 ```
+
 
 ### Delete feedback
 
 #### delete Request
 
-**Request:** `/users/:id/feedback/:feedbackId`
+**Request:** `/users/:code/feedback/:feedbackId`
 
 **Response:**
 
@@ -409,12 +429,13 @@
   "msg": "An error occurred, please try again!"
 }
 ```
+
 
 ### Add achievement
 
 #### post Request
 
-**Request:** `/users/:id/achievement`
+**Request:** `/users/:code/achievement`
 
 ```json
 {
@@ -444,12 +465,13 @@
   "msg": "An error occurred, please try again!"
 }
 ```
+
 
 ### Edit achievement
 
 #### put Request
 
-**Request:** `/users/:id/achievement/:achievementId`
+**Request:** `/users/:code/achievement/:achievementId`
 
 ```json
 {
@@ -480,11 +502,12 @@
 }
 ```
 
+
 ### Delete achievement
 
 #### delete Request
 
-**Request:** `/users/:id/achievement/:achievementId`
+**Request:** `/users/:code/achievement/:achievementId`
 
 **Response:**
 
@@ -504,11 +527,14 @@
 }
 ```
 
+
+
 ## Announcements
 
-### Get announcements
 
-#### get Request
+### GET ANNOUNCEMENTS
+
+#### GET Request
 
 **Request:** `/announcements`
 
@@ -519,16 +545,18 @@
 ```json
 [
   {
-    "_id": "sdfsaf43545",
-    "title": "Announcement 2",
+
+    "_id": "kjhkjh",
+    "title": "Announcement 1",
     "body": "Fake data for announcement ",
     "date": "26-04-2020",
     "type": "operation", // or 'general'/'technical'
     "cover": "https://via.placeholder.com/500?text=image+1"
   },
   {
-    "_id": "sdfsaf43545",
-    "title": "Announcement 1",
+
+    "_id": "kljlsadj",
+    "title": "Announcement 2",
     "body": "Fake data for announcement ",
     "date": "26-04-2020",
     "type": "operation", // or 'general'/'technical'
@@ -537,13 +565,14 @@
 ]
 ```
 
-- **400:**
+- **500:**
 
 ```json
 {
   "msg": "An error occurred, please try again later!"
 }
 ```
+
 
 ### Post announcements
 
@@ -584,6 +613,7 @@
 }
 ```
 
+
 ### Edit announcements
 
 #### put Request
@@ -622,6 +652,7 @@
   "msg": "An error occurred, please try again later!"
 }
 ```
+
 
 ### Delete announcements
 

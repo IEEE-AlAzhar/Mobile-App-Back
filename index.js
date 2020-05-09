@@ -17,8 +17,8 @@ mongoose
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));
 
+//Middlewares
 app.use(express.json());
-
 app.use(cors());
 
 const userController = require("./controllers/users.controller");
