@@ -21,7 +21,7 @@ const createUser = (User) => (req, res) => {
             userData: newUser,
           });
         })
-        .catch((err) =>
+        .catch(() =>
           res
             .status(500)
             .json({ msg: "An error occurred, please try again later!" })
