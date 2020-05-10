@@ -36,7 +36,9 @@ class UserService extends CoreService {
       .findOne({ code: code })
       .then((user) => {
         if (user) {
-          const token = jwt.sign({ id: user._id }, config.secret);
+          const token = jwt.sign({ id: user._id }, config.secret, {
+            expiresIn: 2592000, // 1 month
+          });
 
           res.json({ auth: true, token: token, user });
           console.log(req.user);
