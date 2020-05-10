@@ -5,12 +5,12 @@ import { Modal } from "react-responsive-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 
-import { User } from "globals/interfaces/user.interface";
+import { User } from "configurations/interfaces/user.interface";
 import Loading from "shared/loading";
 import FormInput from "shared/Input";
 import ImageInput from "shared/image-input";
-import { getCommittees } from "modules/users/services/committee.service";
-import { Committee } from "globals/interfaces/committee.interface";
+import CommitteeService from "modules/committees/services/committee.service";
+import { Committee } from "configurations/interfaces/committee.interface";
 
 interface Prop {
   isModalOpened: boolean;
@@ -44,6 +44,13 @@ export default class UserForm extends Component<Prop, State> {
     isImageUploading: false,
   };
 
+  _committeeService: CommitteeService;
+
+  constructor(props: Prop) {
+    super(props);
+    this._committeeService = new CommitteeService();
+  }
+
   componentDidMount() {
     let { itemToBeEdited } = this.props;
 
@@ -52,7 +59,7 @@ export default class UserForm extends Component<Prop, State> {
       this.setState({ user: itemToBeEdited });
     }
 
-    getCommittees().then((response) => {
+    this._committeeService.list().then((response) => {
       this.setState({
         committees: this.generateArrayOfCommitteesNames(response),
       });
@@ -103,8 +110,8 @@ export default class UserForm extends Component<Prop, State> {
       },
       () => {
         this.props.onSubmit(this.state.user, true).then(() => {
-          this.resetObj(user);
           this.setState({ user: user });
+          this.resetObj(user);
         });
       }
     );
@@ -160,7 +167,7 @@ export default class UserForm extends Component<Prop, State> {
           <Loading />
         ) : (
           <>
-            <h3 className="mb-3"> Add new Member </h3>
+            <h3 className="mb-3"> Member </h3>
             <form onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="form-group col-md-6">

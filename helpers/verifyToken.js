@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/token");
 
+const User = require("../models/User.model");
+
 const verifyToken = () => (req, res, next) => {
   const token = req.headers["x-access-token"];
   if (!token)
@@ -12,7 +14,11 @@ const verifyToken = () => (req, res, next) => {
         .status(500)
         .json({ auth: false, message: "Failed to authenticate token." });
 
-    next();
+    // To use the user data in other places
+    User.findById(decoded.id).then((user) => {
+      req.user = user;
+      next();
+    });
   });
 };
 

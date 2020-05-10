@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 
-import { Announcement } from "globals/interfaces/announcement.interface";
+import { Announcement } from "configurations/interfaces/announcement.interface";
 import Loading from "shared/loading";
 import FormInput from "shared/Input";
 import ImageInput from "shared/image-input";
@@ -88,8 +88,8 @@ export default class AnnouncementForm extends Component<Prop, State> {
       },
       () => {
         this.props.onSubmit(this.state.announcement, true).then(() => {
-          this.resetObj(announcement);
           this.setState({ announcement: announcement });
+          this.resetObj(announcement);
         });
       }
     );
@@ -127,7 +127,7 @@ export default class AnnouncementForm extends Component<Prop, State> {
           <Loading />
         ) : (
           <>
-            <h3 className="mb-3"> Add new Announcement </h3>
+            <h3 className="mb-3"> Announcement </h3>
             <form onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="form-group col-md-6">

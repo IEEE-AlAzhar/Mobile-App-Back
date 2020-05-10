@@ -5,19 +5,13 @@ import AdminTable from "shared/admin-table";
 import Loading from "shared/loading";
 import CommitteeForm from "../committeeForm";
 
-import {
-  getCommittees,
-  updateCommittee,
-  deleteCommittee,
-  addCommittee,
-} from "modules/users/services/committee.service";
-import { Committee } from "globals/interfaces/committee.interface";
+import UserService from "modules/users/services/user.service";
+import CommitteeService from "modules/committees/services/committee.service";
+import { Committee } from "configurations/interfaces/committee.interface";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
-import { isUserLoggedIn } from "modules/users/services/auth.service";
 
 interface Prop {
   history: {
@@ -54,11 +48,21 @@ export default class CommitteesListPage extends Component<Prop, State> {
     idOfItemToBeDeleted: "",
   };
 
+  public _committeeService: CommitteeService;
+  public _userService: UserService;
+
+  constructor(props: Prop) {
+    super(props);
+    this._committeeService = new CommitteeService();
+    this._userService = new UserService();
+  }
+
   async componentDidMount() {
-    // if (!isUserLoggedIn()) return this.props.history.push("/login");
+    if (!this._userService.isUserLoggedIn())
+      return this.props.history.push("/login");
     this.setState({ isLoading: true });
     try {
-      let committees = await getCommittees();
+      let committees = await this._committeeService.list();
 
       this.setState({ committees, isLoading: false });
     } catch {
@@ -73,7 +77,8 @@ export default class CommitteesListPage extends Component<Prop, State> {
       isSubmitting: true,
     });
 
-    return addCommittee(committee)
+    return this._committeeService
+      .create(committee)
       .then((response) => {
         committees.unshift(response as never);
 
@@ -103,13 +108,22 @@ export default class CommitteesListPage extends Component<Prop, State> {
       this.setState({
         isSubmitting: true,
       });
-      return updateCommittee(id, committee).then((response) => {
-        this.updateStateWithNewCommittee(response);
-        this.setState({
-          isSubmitting: false,
-          committeeToBeEdited: {} as Committee,
+      return this._committeeService
+        .update(id, committee)
+        .then((response) => {
+          this.updateStateWithNewCommittee(response);
+          this.setState({
+            isSubmitting: false,
+            successAlert: "Committee updated successfully",
+            errorAlert: "",
+            committeeToBeEdited: {} as Committee,
+          });
+        })
+        .catch((err) => {
+          this.setState({
+            errorAlert: err.response.data.msg,
+          });
         });
-      });
     } else {
       this.setState({
         isSubmitting: false,
@@ -133,11 +147,18 @@ export default class CommitteesListPage extends Component<Prop, State> {
     let { committees } = this.state;
 
     if (submit) {
-      deleteCommittee(id).then(() => {
-        this.setState({
-          committees: committees.filter((item: Committee) => item._id !== id),
+      this._committeeService
+        .delete(id)
+        .then(() => {
+          this.setState({
+            committees: committees.filter((item: Committee) => item._id !== id),
+          });
+        })
+        .catch((err) => {
+          this.setState({
+            errorAlert: err.response.data.msg,
+          });
         });
-      });
     } else {
       this.setState({
         idOfItemToBeDeleted: id,
@@ -193,7 +214,9 @@ export default class CommitteesListPage extends Component<Prop, State> {
             itemToBeEdited={committeeToBeEdited}
             onSubmit={this.editCommittee}
             isSubmitting={isSubmitting}
-            closeModal={() => this.setState({ committeeToBeEdited: {} as Committee })}
+            closeModal={() =>
+              this.setState({ committeeToBeEdited: {} as Committee })
+            }
           />
         )}
 

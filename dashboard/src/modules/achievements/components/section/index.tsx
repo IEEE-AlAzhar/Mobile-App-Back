@@ -4,12 +4,8 @@ import AdminTable from "shared/admin-table";
 import Loading from "shared/loading";
 import AchievementForm from "../form";
 
-import {
-  updateAchievement,
-  deleteAchievement,
-  addAchievement,
-} from "modules/achievements/services/achievements.service";
-import { Achievement } from "globals/interfaces/achievement.interface";
+import AchievementService from "modules/achievements/services/achievements.service";
+import { Achievement } from "configurations/interfaces/achievement.interface";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,7 +13,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 interface Prop {
   userId: string;
-  achievements: Achievement[]
+  achievements: Achievement[];
 }
 
 interface State {
@@ -49,6 +45,13 @@ export default class AchievementsList extends Component<Prop, State> {
     idOfItemToBeDeleted: "",
   };
 
+  public _achievementService: AchievementService;
+
+  constructor(props: Prop) {
+    super(props);
+    this._achievementService = new AchievementService();
+  }
+
   createAchievement = (achievement: Achievement) => {
     let { achievements } = this.state;
 
@@ -56,7 +59,8 @@ export default class AchievementsList extends Component<Prop, State> {
       isSubmitting: true,
     });
 
-    return addAchievement(achievement, this.props.userId)
+    return this._achievementService
+      .create(achievement, this.props.userId)
       .then((response) => {
         achievements.unshift(response as never);
 
@@ -86,13 +90,22 @@ export default class AchievementsList extends Component<Prop, State> {
       this.setState({
         isSubmitting: true,
       });
-      return updateAchievement(id, achievement, this.props.userId).then((response) => {
-        this.updateStateWithNewAchievement(response);
-        this.setState({
-          isSubmitting: false,
-          achievementToBeEdited: {} as Achievement,
+      return this._achievementService
+        .update(id, achievement)
+        .then((response) => {
+          this.updateStateWithNewAchievement(response);
+          this.setState({
+            isSubmitting: false,
+            successAlert: "Achievement updated successfully",
+            errorAlert: "",
+            achievementToBeEdited: {} as Achievement,
+          });
+        })
+        .catch((err) => {
+          this.setState({
+            errorAlert: err.response.data.msg,
+          });
         });
-      });
     } else {
       this.setState({
         isSubmitting: false,
@@ -116,7 +129,7 @@ export default class AchievementsList extends Component<Prop, State> {
     let { achievements } = this.state;
 
     if (submit) {
-      deleteAchievement(id, this.props.userId).then(() => {
+      this._achievementService.delete(id, this.props.userId).then(() => {
         this.setState({
           achievements: achievements.filter(
             (item: Achievement) => item._id !== id

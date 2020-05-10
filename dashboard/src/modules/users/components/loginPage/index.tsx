@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import login from "modules/users/services/login.service";
+import UserService from "modules/users/services/user.service";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 
@@ -11,8 +11,8 @@ interface State {
     code: string;
   };
   isLoading: boolean;
-  success: boolean;
-  error: boolean;
+  success: string;
+  error: string;
 }
 
 interface Prop {
@@ -27,9 +27,15 @@ export default class LoginPage extends Component<Prop, State> {
       code: "",
     },
     isLoading: false,
-    success: false,
-    error: false,
+    success: "",
+    error: "",
   };
+
+  public _userService: UserService;
+  constructor(props: Prop) {
+    super(props);
+    this._userService = new UserService();
+  }
 
   handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
     let { name, value } = e.currentTarget;
@@ -55,25 +61,39 @@ export default class LoginPage extends Component<Prop, State> {
 
     let response;
     try {
-      response = await login(user);
+      response = await this._userService.login(user);
+      let { type } = response.data.user;
 
-      this.setState({
-        isLoading: false,
-        success: response.data.success,
-        error: null,
-      });
-
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", response.data.user);
-
-      setTimeout(() => {
-        this.props.history.push("/");
-      }, 2000);
+      if (type === "Member") {
+        this.setState({
+          isLoading: false,
+          success: null,
+          error: "You shouldn't be here !",
+        });
+      } else if (type === "Admin") {
+        this.setState({
+          isLoading: false,
+          success: "Logged in successfully",
+          error: "",
+        });
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+      } else if (type === "Board") {
+        this.setState({
+          isLoading: false,
+          success: "Logged in successfully",
+          error: "",
+        });
+        setTimeout(() => {
+          window.location.href = "/users";
+        }, 2000);
+      }
     } catch (err) {
       this.setState({
         isLoading: false,
         success: null,
-        error: err.response.data.message,
+        error: err.response.data.msg,
       });
     }
   };

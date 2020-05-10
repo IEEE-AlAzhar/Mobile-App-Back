@@ -5,7 +5,7 @@ import { Modal } from "react-responsive-modal";
 
 import Loading from "shared/loading";
 import FormInput from "shared/Input";
-import { Feedback } from "globals/interfaces/feedback.interface";
+import { Feedback } from "configurations/interfaces/feedback.interface";
 
 interface Prop {
   isModalOpened: boolean;
@@ -76,8 +76,8 @@ export default class FeedbackForm extends Component<Prop, State> {
       },
       () => {
         this.props.onSubmit(this.state.feedback, true).then(() => {
-          this.resetObj(feedback);
           this.setState({ feedback: feedback });
+          this.resetObj(feedback);
         });
       }
     );
@@ -115,7 +115,7 @@ export default class FeedbackForm extends Component<Prop, State> {
           <Loading />
         ) : (
           <>
-            <h3 className="mb-3"> Add new Feedback </h3>
+            <h3 className="mb-3"> Feedback </h3>
             <form onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="form-group col-md-12">

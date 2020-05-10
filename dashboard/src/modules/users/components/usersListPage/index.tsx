@@ -5,19 +5,12 @@ import AdminTable from "shared/admin-table";
 import Loading from "shared/loading";
 import UserForm from "../userForm";
 
-import {
-  getUsers,
-  updateUser,
-  deleteUser,
-  addUser,
-} from "modules/users/services/user.service";
-import { User } from "globals/interfaces/user.interface";
+import UserService from "modules/users/services/user.service";
+import { User } from "configurations/interfaces/user.interface";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
-import { isUserLoggedIn } from "modules/users/services/auth.service";
 
 interface Prop {
   history: {
@@ -58,11 +51,19 @@ export default class UsersListPage extends Component<Prop, State> {
     idOfItemToBeDeleted: "",
   };
 
+  public _userService: UserService;
+  constructor(props: Prop) {
+    super(props);
+    this._userService = new UserService();
+  }
+
   async componentDidMount() {
-    // if (!isUserLoggedIn()) return this.props.history.push("/login");
+    if (!this._userService.isUserLoggedIn())
+      return this.props.history.push("/login");
+
     this.setState({ isLoading: true });
     try {
-      let users = await getUsers();
+      let users = await this._userService.list();
 
       this.setState({ users, isLoading: false });
     } catch {
@@ -77,7 +78,8 @@ export default class UsersListPage extends Component<Prop, State> {
       isSubmitting: true,
     });
 
-    return addUser(user)
+    return this._userService
+      .create(user)
       .then((response) => {
         users.unshift(response as never);
 
@@ -107,13 +109,22 @@ export default class UsersListPage extends Component<Prop, State> {
       this.setState({
         isSubmitting: true,
       });
-      return updateUser(id, user).then((response) => {
-        this.updateStateWithNewUser(response);
-        this.setState({
-          isSubmitting: false,
-          userToBeEdited: {} as User,
+      return this._userService
+        .update(id, user)
+        .then((response) => {
+          this.updateStateWithNewUser(response);
+          this.setState({
+            isSubmitting: false,
+            successAlert: "User updated successfully",
+            errorAlert: "",
+            userToBeEdited: {} as User,
+          });
+        })
+        .catch((err) => {
+          this.setState({
+            errorAlert: err.response.data.msg,
+          });
         });
-      });
     } else {
       this.setState({
         isSubmitting: false,
@@ -137,7 +148,7 @@ export default class UsersListPage extends Component<Prop, State> {
     let { users } = this.state;
 
     if (submit) {
-      deleteUser(id).then(() => {
+      this._userService.delete(id).then(() => {
         this.setState({
           users: users.filter((item: User) => item._id !== id),
         });

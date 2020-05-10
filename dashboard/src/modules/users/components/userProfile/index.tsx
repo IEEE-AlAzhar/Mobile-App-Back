@@ -3,15 +3,13 @@ import React, { Component } from "react";
 import AdminLayout from "shared/admin-layout";
 import Loading from "shared/loading";
 
-import { getSingleUser } from "modules/users/services/user.service";
-import { User } from "globals/interfaces/user.interface";
+import UserService from "modules/users/services/user.service";
+import { User } from "configurations/interfaces/user.interface";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 
 import AchievementsList from "modules/achievements/components/section";
 import FeedbacksList from "modules/feedbacks/components/section";
-
-import { isUserLoggedIn } from "modules/users/services/auth.service";
 
 import "./style.css";
 
@@ -34,7 +32,6 @@ interface State {
 }
 
 export default class UserProfile extends Component<Prop, State> {
-
   state = {
     user: {} as User,
     currentTab: "achievements",
@@ -42,12 +39,19 @@ export default class UserProfile extends Component<Prop, State> {
     isLoading: false,
   };
 
+  public _userService: UserService;
+  constructor(props: Prop) {
+    super(props);
+    this._userService = new UserService();
+  }
+
   async componentDidMount() {
-    // if (!isUserLoggedIn()) return this.props.history.push("/login");
+    if (!this._userService.isUserLoggedIn())
+      return this.props.history.push("/login");
     this.setState({ isLoading: true });
     try {
       let id = this.props.match.params.id;
-      let user = await getSingleUser(id);
+      let user = await this._userService.getById(id);
 
       this.setState({ user, isLoading: false });
     } catch {
@@ -90,7 +94,11 @@ export default class UserProfile extends Component<Prop, State> {
 
             <section className="profile__data mt-5">
               <aside className="profile__controls">
-                <div className="btn-group" role="group" aria-label="Basic example">
+                <div
+                  className="btn-group"
+                  role="group"
+                  aria-label="Basic example"
+                >
                   <button
                     className={`btn btn-lg ${
                       currentTab === "achievements" && "btn-active"

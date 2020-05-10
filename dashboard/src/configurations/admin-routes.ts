@@ -3,9 +3,9 @@ import LoginPage from "modules/users/components/loginPage";
 import UserProfile from "modules/users/components/userProfile";
 import UsersListPage from "modules/users/components/usersListPage";
 import AnnouncementsListPage from "modules/announcements/components/page";
-import CommitteesListPage from "modules/users/components/committeesListPage";
+import CommitteesListPage from "modules/committees/components/committeesListPage";
 
-import { RouteStructure } from "globals/interfaces/route.interface";
+import { RouteStructure } from "configurations/interfaces/route.interface";
 
 export let adminRoutes: RouteStructure[] = [
   {
@@ -30,10 +30,12 @@ export let adminRoutes: RouteStructure[] = [
     path: "/committees",
     label: "Committees",
     component: CommitteesListPage,
+    adminOnly: true
   },
   {
     path: "/announcements",
     label: "Announcements",
     component: AnnouncementsListPage,
+    adminOnly: true
   },
 ];

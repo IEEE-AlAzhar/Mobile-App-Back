@@ -4,12 +4,8 @@ import AdminTable from "shared/admin-table";
 import Loading from "shared/loading";
 import FeedbackForm from "../form";
 
-import {
-  updateFeedback,
-  deleteFeedback,
-  addFeedback,
-} from "modules/feedbacks/services/feedbacks.service";
-import { Feedback } from "globals/interfaces/feedback.interface";
+import FeedbackService from "modules/feedbacks/services/feedbacks.service";
+import { Feedback } from "configurations/interfaces/feedback.interface";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -49,6 +45,13 @@ export default class FeedbacksList extends Component<Prop, State> {
     idOfItemToBeDeleted: "",
   };
 
+  public _feedbackService: FeedbackService;
+
+  constructor(props: Prop) {
+    super(props);
+    this._feedbackService = new FeedbackService();
+  }
+
   createFeedback = (feedback: Feedback) => {
     let { feedbacks } = this.state;
 
@@ -56,7 +59,8 @@ export default class FeedbacksList extends Component<Prop, State> {
       isSubmitting: true,
     });
 
-    return addFeedback(feedback, this.props.userId)
+    return this._feedbackService
+      .create(feedback, this.props.userId)
       .then((response) => {
         feedbacks.unshift(response as never);
 
@@ -86,15 +90,22 @@ export default class FeedbacksList extends Component<Prop, State> {
       this.setState({
         isSubmitting: true,
       });
-      return updateFeedback(id, feedback, this.props.userId).then(
-        (response) => {
+      return this._feedbackService
+        .update(id, feedback)
+        .then((response) => {
           this.updateStateWithNewFeedback(response);
           this.setState({
             isSubmitting: false,
+            successAlert: "Feedback updated successfully",
+            errorAlert: "",
             feedbackToBeEdited: {} as Feedback,
           });
-        }
-      );
+        })
+        .catch((err) => {
+          this.setState({
+            errorAlert: err.response.data.msg,
+          });
+        });
     } else {
       this.setState({
         isSubmitting: false,
@@ -118,7 +129,7 @@ export default class FeedbacksList extends Component<Prop, State> {
     let { feedbacks } = this.state;
 
     if (submit) {
-      deleteFeedback(id, this.props.userId).then(() => {
+      this._feedbackService.delete(id, this.props.userId).then(() => {
         this.setState({
           feedbacks: feedbacks.filter((item: Feedback) => item._id !== id),
         });

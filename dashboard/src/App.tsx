@@ -7,8 +7,8 @@ import {
   RouteProps,
 } from "react-router-dom";
 
-import { adminRoutes } from "globals/admin-routes";
-import { RouteStructure } from "globals/interfaces/route.interface";
+import { adminRoutes } from "configurations/admin-routes";
+import { RouteStructure } from "configurations/interfaces/route.interface";
 
 import "./App.css";
 

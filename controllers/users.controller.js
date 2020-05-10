@@ -11,24 +11,21 @@ let achievementService = new AchievementService();
 let feedbackService = new FeedbackService();
 
 server.post("/login", userService.login);
-server.post("/logout", verifyToken(), userService.logout);
+server.get("/logout", verifyToken(), userService.logout);
+server.put("/:id", verifyToken(), userService.updateRecord);
 server.get("/list", verifyToken(), userService.listRecords);
-server.get("/:id/me", verifyToken(), userService.getUserById);
 server.post("/new", verifyToken(), userService.createRecord);
+server.get("/me/:id", verifyToken(), userService.getUserById);
+server.delete("/:id", verifyToken(), userService.deleteRecord);
 server.put("/:id/image", verifyToken(), userService.changeImage);
 server.put("/:id/phone", verifyToken(), userService.changePhone);
-server.delete("/:id", verifyToken(), userService.deleteRecord);
 
 server.post(
   "/:id/achievements/new",
   verifyToken(),
   achievementService.createRecord
 );
-server.put(
-  "/achievements/:achievementId",
-  verifyToken(),
-  achievementService.updateRecord
-);
+server.put("/achievements/:id", verifyToken(), achievementService.updateRecord);
 server.delete(
   "/:id/achievements/:achievementId",
   verifyToken(),
@@ -36,11 +33,7 @@ server.delete(
 );
 
 server.post("/:id/feedbacks/new", verifyToken(), feedbackService.createRecord);
-server.put(
-  "/:id/feedbacks/:feedbackId",
-  verifyToken(),
-  feedbackService.updateRecord
-);
+server.put("/feedbacks/:id", verifyToken(), feedbackService.updateRecord);
 server.delete(
   "/:id/feedbacks/:feedbackId",
   verifyToken(),

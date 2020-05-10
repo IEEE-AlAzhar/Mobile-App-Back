@@ -6,7 +6,7 @@ import { Modal } from "react-responsive-modal";
 import Loading from "shared/loading";
 import FormInput from "shared/Input"
 import ImageInput from "shared/image-input";
-import { Achievement } from "globals/interfaces/achievement.interface";
+import { Achievement } from "configurations/interfaces/achievement.interface";
 
 interface Prop {
   isModalOpened: boolean;
@@ -88,8 +88,8 @@ export default class AchievementForm extends Component<Prop, State> {
       },
       () => {
         this.props.onSubmit(this.state.achievement, true).then(() => {
-          this.resetObj(achievement);
           this.setState({ achievement: achievement });
+          this.resetObj(achievement);
         });
       }
     );
@@ -127,7 +127,7 @@ export default class AchievementForm extends Component<Prop, State> {
           <Loading />
         ) : (
           <>
-            <h3 className="mb-3"> Add new Achievement </h3>
+            <h3 className="mb-3"> Achievement </h3>
             <form onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="form-group col-md-12">

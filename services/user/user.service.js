@@ -3,6 +3,8 @@ const User = require("../../models/User.model");
 const jwt = require("jsonwebtoken");
 const config = require("../../config/token");
 
+let app = require("express")();
+
 class UserService extends CoreService {
   constructor() {
     super();
@@ -36,8 +38,8 @@ class UserService extends CoreService {
         if (user) {
           const token = jwt.sign({ id: user._id }, config.secret);
 
-          req.user = user;
           res.json({ auth: true, token: token, user });
+          console.log(req.user);
         } else {
           res.status(404).json({ msg: `${this.name} does not exist!` });
         }

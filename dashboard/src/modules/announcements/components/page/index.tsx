@@ -5,19 +5,13 @@ import AdminTable from "shared/admin-table";
 import Loading from "shared/loading";
 import AnnouncementForm from "../form";
 
-import {
-  getAnnouncements,
-  updateAnnouncement,
-  deleteAnnouncement,
-  addAnnouncement,
-} from "modules/announcements/services/announcement.service";
-import { Announcement } from "globals/interfaces/announcement.interface";
+import UserService from "modules/users/services/user.service";
+import AnnouncementService from "modules/announcements/services/announcement.service";
+import { Announcement } from "configurations/interfaces/announcement.interface";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
-import { isUserLoggedIn } from "modules/users/services/auth.service";
 
 interface Prop {
   history: {
@@ -54,11 +48,21 @@ export default class AnnouncementsListPage extends Component<Prop, State> {
     idOfItemToBeDeleted: "",
   };
 
+  public _announcementService: AnnouncementService;
+  public _userService: UserService;
+
+  constructor(props: Prop) {
+    super(props);
+    this._announcementService = new AnnouncementService();
+    this._userService = new UserService();
+  }
+
   async componentDidMount() {
-    // if (!isUserLoggedIn()) return this.props.history.push("/login");
+    if (!this._userService.isUserLoggedIn())
+      return this.props.history.push("/login");
     this.setState({ isLoading: true });
     try {
-      let announcements = await getAnnouncements();
+      let announcements = await this._announcementService.list();
 
       this.setState({ announcements, isLoading: false });
     } catch {
@@ -73,7 +77,8 @@ export default class AnnouncementsListPage extends Component<Prop, State> {
       isSubmitting: true,
     });
 
-    return addAnnouncement(announcement)
+    return this._announcementService
+      .create(announcement)
       .then((response) => {
         announcements.unshift(response as never);
 
@@ -103,13 +108,22 @@ export default class AnnouncementsListPage extends Component<Prop, State> {
       this.setState({
         isSubmitting: true,
       });
-      return updateAnnouncement(id, announcement).then((response) => {
-        this.updateStateWithNewAnnouncement(response);
-        this.setState({
-          isSubmitting: false,
-          announcementToBeEdited: {} as Announcement,
+      return this._announcementService
+        .update(id, announcement)
+        .then((response) => {
+          this.updateStateWithNewAnnouncement(response);
+          this.setState({
+            isSubmitting: false,
+            successAlert: "Announcement updated successfully",
+            errorAlert: "",
+            announcementToBeEdited: {} as Announcement,
+          });
+        })
+        .catch((err) => {
+          this.setState({
+            errorAlert: err.response.data.msg,
+          });
         });
-      });
     } else {
       this.setState({
         isSubmitting: false,
@@ -133,7 +147,7 @@ export default class AnnouncementsListPage extends Component<Prop, State> {
     let { announcements } = this.state;
 
     if (submit) {
-      deleteAnnouncement(id).then(() => {
+      this._announcementService.delete(id).then(() => {
         this.setState({
           announcements: announcements.filter(
             (item: Announcement) => item._id !== id

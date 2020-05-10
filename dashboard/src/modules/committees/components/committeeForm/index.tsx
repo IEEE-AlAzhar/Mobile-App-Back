@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 
-import { Committee } from "globals/interfaces/committee.interface";
+import { Committee } from "configurations/interfaces/committee.interface";
 import Loading from "shared/loading";
 import FormInput from "shared/Input";
 
@@ -102,7 +102,7 @@ export default class CommitteeForm extends Component<Prop, State> {
           <Loading />
         ) : (
           <>
-            <h3 className="mb-3"> Add new committee </h3>
+            <h3 className="mb-3"> Committee </h3>
             <form onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="form-group col-md-12">

@@ -7,20 +7,26 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 
-import "./style.css";
+import UserService from "modules/users/services/user.service";
 
-import logout from "modules/users/services/logout.service";
+import "./style.css";
 
 interface Prop {
   isVisible: boolean;
   toggleSidebar(event: React.MouseEvent<HTMLButtonElement>): void;
-}
+}                                             
 
 export default class AdminHeader extends Component<Prop> {
+  public _userService: UserService;
+  constructor(props: Prop) {
+    super(props);
+    this._userService = new UserService();
+  }
+
   logoutUser: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void = () => {
-    logout().then(() => {
+    this._userService.logout().then(() => {
       window.location.href = "/login";
     });
   };

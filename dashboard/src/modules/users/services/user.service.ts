@@ -1,34 +1,39 @@
-import axios from "axios";
+import CrudService from "configurations/crud.service";
 
-import { User } from "globals/interfaces/user.interface";
+export default class UserService extends CrudService {
+  constructor() {
+    super();
+    this.initialize("/users");
 
-export let addUser = async (user: User) => {
-  let { data: userAdded } = await axios.post("/api/users/register", user);
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+  }
 
-  return userAdded;
-};
+  async login(cred: { code: string }) {
+    let response = await this._http.post(`${this.url}/login`, cred);
 
-export let updateUser = async (id: string, user: User) => {
-  let { data: updatedUser } = await axios.put(`/api/users/${id}`, user);
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", response.data.token);
 
-  localStorage.setItem("user", JSON.stringify(updatedUser));
+    return response;
+  }
 
-  return updatedUser;
-};
+  async logout() {
+    let response = await this._http.get(`${this.url}/logout`);
 
-export let deleteUser = async (id: string) => {
-  let { data } = await axios.delete(`/api/users/${id}`);
-  return data;
-};
+    localStorage.setItem("user", null);
+    localStorage.removeItem("token");
 
-export let getUsers = async () => {
-  let { data: users } = await axios.get("/api/users/list");
+    return response;
+  }
 
-  return users;
-};
+  isUserLoggedIn() {
+    if (localStorage.getItem("token")) return true;
+    else return false;
+  }
 
-export let getSingleUser = async (id: string) => {
-  let { data: user } = await axios.get(`/api/users/${id}`);
-
-  return user;
-};
+  async getById(id: string) {
+    let { data: record } = await this._http.get(`${this.url}/me/${id}`);
+    return record;
+  }
+}

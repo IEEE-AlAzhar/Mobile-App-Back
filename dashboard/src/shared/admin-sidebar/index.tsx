@@ -4,8 +4,8 @@ import "./style.css";
 
 import { NavLink } from "react-router-dom";
 
-import { adminRoutes } from "globals/admin-routes";
-import { RouteStructure } from "globals/interfaces/route.interface";
+import { adminRoutes } from "configurations/admin-routes";
+import { RouteStructure } from "configurations/interfaces/route.interface";
 
 interface Prop {
   isVisible: boolean;
@@ -13,15 +13,28 @@ interface Prop {
 
 export default class AdminSidebar extends Component<Prop> {
   renderAdminRoutes = () => {
+    let { type } = localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : "";
     return adminRoutes.map((adRoute: RouteStructure, index: number) => {
       if (adRoute.label) {
-        return (
-          <li key={index} className="sidebarItem">
-            <NavLink exact to={adRoute.path}>
-              {adRoute.label}
-            </NavLink>
-          </li>
-        );
+        if (type === "Board" && !adRoute.adminOnly) {
+          return (
+            <li key={index} className="sidebarItem">
+              <NavLink exact to={adRoute.path}>
+                {adRoute.label}
+              </NavLink>
+            </li>
+          );
+        } else if (type === "Admin") {
+          return (
+            <li key={index} className="sidebarItem">
+              <NavLink exact to={adRoute.path}>
+                {adRoute.label}
+              </NavLink>
+            </li>
+          );
+        } else return "";
       } else return "";
     });
   };
