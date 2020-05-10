@@ -41,7 +41,6 @@ class UserService extends CoreService {
           });
 
           res.json({ auth: true, token: token, user });
-          console.log(req.user);
         } else {
           res.status(404).json({ msg: `${this.name} does not exist!` });
         }
