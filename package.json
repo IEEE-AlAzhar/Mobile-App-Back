@@ -15,7 +15,7 @@
     "start": "pm2-runtime start ecosystem.config.js --env production",
     "dev-start": "concurrently \"nodemon\" \"cd dashboard/ && npm start\"",
     "lint:fix": "eslint src/**/*.js --fix",
-    "deploy": "rm -rf public && mkdir public && cd dashboard/ && npm run custom-build && cd .. && git add . && git commit -m 'Edits' && git push heroku master"
+    "deploy": "rm -rf public && mkdir public && cd dashboard/ && rm -rf build/ && npm run custom-build && cd .. && git add . && git commit -m 'Edits' && git push heroku master"
   },
   "repository": {
     "type": "git",
