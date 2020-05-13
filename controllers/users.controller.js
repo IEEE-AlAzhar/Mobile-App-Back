@@ -2,6 +2,8 @@ const express = require("express");
 const server = express.Router();
 const verifyToken = require("../helpers/verifyToken");
 
+const { parser } = require("../config/cloudinary");
+
 const UserService = require("../services/user/user.service");
 const AchievementService = require("../services/achievement/achievement.service");
 const FeedbackService = require("../services/feedback/feedback.service");
@@ -17,7 +19,12 @@ server.get("/list", verifyToken(), userService.listRecords);
 server.post("/new", verifyToken(), userService.createRecord);
 server.get("/me/:id", verifyToken(), userService.getUserById);
 server.delete("/:id", verifyToken(), userService.deleteRecord);
-server.put("/:id/image", verifyToken(), userService.changeImage);
+server.put(
+  "/:id/image",
+  verifyToken(),
+  parser.single("image"),
+  userService.changeImage
+);
 server.put("/:id/phone", verifyToken(), userService.changePhone);
 
 server.post(

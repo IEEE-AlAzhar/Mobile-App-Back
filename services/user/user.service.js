@@ -3,8 +3,6 @@ const User = require("../../models/User.model");
 const jwt = require("jsonwebtoken");
 const config = require("../../config/token");
 
-let app = require("express")();
-
 class UserService extends CoreService {
   constructor() {
     super();
@@ -110,7 +108,8 @@ class UserService extends CoreService {
 
   changeImage(req, res) {
     const { id } = req.params;
-    const { image } = req.body;
+    let image = req.file.secure_url;
+
     this.db
       .findByIdAndUpdate(id, { $set: { image } }, { new: true })
       .then((data) => {
