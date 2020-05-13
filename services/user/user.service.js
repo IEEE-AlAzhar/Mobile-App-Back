@@ -32,25 +32,52 @@ class UserService extends CoreService {
 
   login(req, res) {
     const { code } = req.body;
-    this.db
-      .findOne({ code: code })
-      .then((user) => {
-        if (user) {
-          const token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 2592000, // 1 month
-          });
+    if (req.device.type === "phone") {
+      this.db
+        .findOne(
+          { code: code },
+          "name phone email image role committee feedbacks achievements"
+        )
+        .populate("achievements")
+        .populate("feedbacks")
+        .then((user) => {
+          if (user) {
+            const token = jwt.sign({ id: user._id }, config.secret, {
+              expiresIn: 2592000, // 1 month
+            });
 
-          res.json({ auth: true, token: token, user });
-        } else {
-          res.status(404).json({ msg: `${this.name} does not exist!` });
-        }
-      })
-      .catch((err) =>
-        res.status(500).json({
-          msg: "An error occurred, please try again later!",
-          error: err,
+            res.json({ auth: true, token: token, user });
+          } else {
+            res.status(404).json({ msg: `${this.name} does not exist!` });
+          }
         })
-      );
+        .catch((err) =>
+          res.status(500).json({
+            msg: "An error occurred, please try again later!",
+            error: err,
+          })
+        );
+    } else {
+      this.db
+        .findOne({ code: code })
+        .then((user) => {
+          if (user) {
+            const token = jwt.sign({ id: user._id }, config.secret, {
+              expiresIn: 2592000, // 1 month
+            });
+
+            res.json({ auth: true, token: token, user });
+          } else {
+            res.status(404).json({ msg: `${this.name} does not exist!` });
+          }
+        })
+        .catch((err) =>
+          res.status(500).json({
+            msg: "An error occurred, please try again later!",
+            error: err,
+          })
+        );
+    }
   }
 
   logout(req, res) {

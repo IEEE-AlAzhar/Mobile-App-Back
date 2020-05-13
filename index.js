@@ -21,6 +21,9 @@ mongoose
 app.use(express.json());
 app.use(cors());
 
+var device = require('express-device');
+app.use(device.capture());
+
 const userController = require("./controllers/users.controller");
 app.use("/api/users", userController);
 
