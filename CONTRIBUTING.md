@@ -19,9 +19,9 @@ Here are some cases you'll encounter while contributing:
 
 #### Add a new endpoint / entire module (model & controller)
 
-To add a new `endpoint / entire module (model & controller)`, please write a proposal first that describes the importance of this module or the endpoint.
+To add a new `endpoint / entire module (model & controller & service)`, please write a proposal first that describes the importance of this module or the endpoint and send it to our email `ieeeaztechnicalcommittee@ieee-azhar.com`
 
-After your proposal has been accepted, head to [index.js](index.js) and require it inside this file.
+After your proposal has been accepted, head to [index.js](index.js) and require the controller inside this file.
 
 ### Front
 
@@ -29,15 +29,15 @@ After your proposal has been accepted, head to [index.js](index.js) and require 
 
 To add a new component, think about it and its functionality. Is this component used on different parts of the application? if so, put it in the `shared` folder. Is this component attached to a specific part? if so, think for what module it belongs and add it to the `components` folder in the module you found the component belongs to.
 
-The component should consists of `index.js` & `style.css` files.
+The component should consists of `index.tsx` & `style.css` files.
 
-If the component is a page, add its route on the [routes.js](front/src/globals/routes.js) and it'll be registered directly and if you want to make it appears on the navbar add a `inNavbar.label` property to the route object.
+If the component is a page, add its route on the [routes.ts](front/src/globals/routes.js) and it'll be registered directly and if you want to make it appears on the navbar add a `label` property to the route object.
 
 #### Add a new service
 
 If you found that there's a module lacks for integration with back-end or some functionality that depends on something outside the module, add it to the `services` folder in that module.
 
-The service should be written like that `[serviceName].service.js` as the `[serviceName]` is the meaningful name of your service that describes what your service does.
+The service should be written like that `[serviceName].service.ts` as the `[serviceName]` is the meaningful name of your service that describes what your service does.
 
 #### Add a new module
 
@@ -58,10 +58,17 @@ Make the name of the components helpful and meaningful that describes the functi
 
 If you found a critical bug, open an `issue` on the issues tab and provide a detailed description about what you found.
 
-> Please read the `style-guide.md` file if will contribute to `front/`.
-
 ## Frequently Asked Questions
 
 ### I found a typo, should I report an issue before I can make a pull request?
 
 For typos and other wording changes, you can directly open pull requests without first creating an issue. Issues are more for discussing larger problems associated with code or structural aspects of the application.
+
+
+When in doubt, you can reach out to our platform dev team to help you with this:
+
+| Name          | GitHub                                             | website                                  |
+| :------------ | :------------------------------------------------- | :--------------------------------------- |
+| Mohamed Saad  | [`@dvmhmdsd`](https://github.com/dvmhmdsd)         | [dvmhmdsd.me](https://dvmhmdsd.me)       |
+
+> **Email: `ieeeaztechnicalcommittee@gmail.com`**
