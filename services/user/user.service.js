@@ -1,7 +1,6 @@
 const CoreService = require("../core.service.js");
 const User = require("../../models/User.model");
 const jwt = require("jsonwebtoken");
-const config = require("../../config/token");
 
 class UserService extends CoreService {
   constructor() {
@@ -40,7 +39,7 @@ class UserService extends CoreService {
         .populate("feedbacks")
         .then((user) => {
           if (user) {
-            const token = jwt.sign({ id: user._id }, config.secret, {
+            const token = jwt.sign({ id: user._id }, process.env.JWT_PASSWORD, {
               expiresIn: 2592000, // 1 month
             });
 
@@ -60,7 +59,7 @@ class UserService extends CoreService {
         .findOne({ code: code })
         .then((user) => {
           if (user) {
-            const token = jwt.sign({ id: user._id }, config.secret, {
+            const token = jwt.sign({ id: user._id }, process.env.JWT_PASSWORD, {
               expiresIn: 2592000, // 1 month
             });
 
